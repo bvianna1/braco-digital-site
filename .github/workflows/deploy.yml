@@ -1,0 +1,34 @@
+name: Deploy para VPS
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout do código
+        uses: actions/checkout@v4
+
+      - name: 🔑 Configurar chave SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: 🌐 Adicionar host ao known_hosts
+        run: |
+          ssh-keyscan -H 179.197.236.144 >> ~/.ssh/known_hosts
+
+      - name: 📦 Copiar arquivos para VPS
+        run: |
+          rsync -avz --delete --exclude='.github' \
+            --exclude='.git' \
+            --exclude='.gitignore' \
+            --exclude='README.md' \
+            ./ root@179.197.236.144:/docker/bracodigital/html/
+
+      - name: ✅ Verificar deploy
+        run: |
+          ssh root@179.197.236.144 "ls -la /docker/bracodigital/html/ && echo '✅ Deploy concluído!'"
