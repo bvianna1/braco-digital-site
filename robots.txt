@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bracodigital.com.br/sitemap.xml
