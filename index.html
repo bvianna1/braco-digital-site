@@ -1,850 +1,215 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Braço Digital — o repetitivo é nosso</title>
-<meta name="description" content="A Braço Digital automatiza as tarefas repetitivas da sua empresa para que você e sua equipe ganhem tempo para o que realmente importa.">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Braço Digital">
-<meta property="og:title" content="O repetitivo é nosso. O que importa é seu.">
-<meta property="og:description" content="Automatizamos as tarefas que consomem as horas da sua equipe e devolvemos o tempo para o trabalho que só gente faz.">
-<meta property="og:url" content="https://bracodigital.com.br/">
-<meta property="og:image" content="https://bracodigital.com.br/assets/og-imagem.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:locale" content="pt_BR">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#12181D">
-<link rel="apple-touch-icon" href="assets/favicon-180.png">
-<link rel="canonical" href="https://bracodigital.com.br/">
-<link rel="icon" href="assets/favicon-180.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-/* ============ TOKENS ============ */
-:root{
-  --gelo:#E7EBED;
-  --papel:#F1F4F5;
-  --tinta:#12181D;
-  --tinta-2:#1B232A;
-  --grafite:#6F7C86;
-  --sinal:#9FD0E3;
-  --sinal-esc:#5E97B0;
-  --fiorde:#2C5F7C;
-  --alerta:#A63A4E;
-
-  --display:'Archivo',system-ui,sans-serif;
-  --corpo:'Inter',system-ui,sans-serif;
-  --mono:'Space Mono',ui-monospace,monospace;
-
-  --mx:clamp(20px,5vw,90px);
-  --borda:1px solid rgba(18,24,29,.13);
-  --borda-clara:1px solid rgba(255,255,255,.14);
-  --ease:cubic-bezier(.16,1,.3,1);
-}
-
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{
-  background:var(--gelo);color:var(--tinta);
-  font-family:var(--corpo);font-size:17px;line-height:1.55;
-  overflow-x:hidden;
-}
-img,svg{display:block;max-width:100%}
-::selection{background:var(--sinal);color:var(--tinta)}
-:focus-visible{outline:3px solid var(--sinal);outline-offset:3px}
-
-h1,h2,h3{font-family:var(--display);font-variation-settings:'wdth' 112,'wght' 800;
-  letter-spacing:-.035em;line-height:.92;text-wrap:balance}
-h1{font-size:clamp(2.7rem,8.2vw,7.2rem)}
-h2{font-size:clamp(2.1rem,5.4vw,4.4rem)}
-h3{font-size:clamp(1.25rem,2vw,1.6rem);font-variation-settings:'wdth' 100,'wght' 700;letter-spacing:-.02em}
-
-.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--grafite);display:flex;align-items:center;gap:.7em}
-.eyebrow::before{content:"";width:34px;height:2px;background:var(--fiorde);display:block}
-.escuro .eyebrow::before,.hero .eyebrow::before{background:var(--sinal)}
-.escuro .eyebrow{color:rgba(255,255,255,.55)}
-
-section{position:relative}
-.wrap{padding:clamp(80px,11vw,150px) var(--mx)}
-.escuro{background:var(--tinta);color:#fff}
-.sinal-txt{color:var(--sinal)}
-
-/* ============ CURSOR ============ */
-.cursor{position:fixed;top:0;left:0;width:34px;height:34px;border:1.5px solid var(--sinal);
-  border-radius:50%;pointer-events:none;z-index:999;transform:translate(-50%,-50%) scale(.35);
-  transition:transform .32s var(--ease),opacity .3s;opacity:0;mix-blend-mode:normal}
-.cursor.on{opacity:1}
-.cursor.grande{transform:translate(-50%,-50%) scale(1);background:rgba(159,208,227,.16)}
-@media (pointer:coarse){.cursor{display:none}}
-
-/* ============ NAV ============ */
-.topo{position:fixed;inset:0 0 auto 0;z-index:100;display:flex;align-items:center;justify-content:space-between;
-  padding:18px var(--mx);transition:background .45s var(--ease),padding .45s var(--ease),border-color .4s;
-  border-bottom:1px solid transparent}
-.topo.colado{background:rgba(18,19,22,.92);backdrop-filter:blur(14px);padding:12px var(--mx);
-  border-bottom:var(--borda-clara)}
-.marca{display:flex;align-items:center;gap:11px;text-decoration:none;color:#fff;font-family:var(--display);
-  font-variation-settings:'wdth' 100,'wght' 800;font-size:1.02rem;letter-spacing:-.02em}
-.marca-logo{height:39px;width:auto;flex:none}
-.fibra-pulso{stroke-dasharray:16 230;stroke-dashoffset:246;animation:pulso 3.6s linear infinite}
-@keyframes pulso{to{stroke-dashoffset:0}}
-.rodape-logo{width:clamp(104px,14vw,158px);height:auto;margin:38px 0 20px}
-.menu{display:flex;gap:30px;align-items:center}
-.menu a{color:rgba(255,255,255,.72);text-decoration:none;font-size:.86rem;font-family:var(--mono);
-  letter-spacing:.04em;position:relative;padding:4px 0}
-.menu a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1.5px;background:var(--sinal);
-  transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease)}
-.menu a:hover{color:#fff}
-.menu a:hover::after{transform:scaleX(1);transform-origin:left}
-.hamb{display:none;background:none;border:0;width:44px;height:34px;cursor:pointer;padding:8px 4px}
-.hamb span{display:block;height:2px;background:#fff;margin:5px 0;transition:transform .4s var(--ease),opacity .3s}
-.aberto .hamb span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.aberto .hamb span:nth-child(2){opacity:0}
-.aberto .hamb span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-@media (max-width:860px){
-  .hamb{display:block}
-  .menu{position:fixed;inset:0;background:var(--tinta);flex-direction:column;justify-content:center;
-    gap:8px;transform:translateY(-101%);transition:transform .6s var(--ease)}
-  body.aberto .menu{transform:translateY(0)}
-  .menu a{font-family:var(--display);font-size:2rem;font-variation-settings:'wdth' 100,'wght' 700;
-    color:#fff;opacity:0;transform:translateY(24px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
-  body.aberto .menu a{opacity:1;transform:none}
-  body.aberto .menu a:nth-child(1){transition-delay:.12s}
-  body.aberto .menu a:nth-child(2){transition-delay:.18s}
-  body.aberto .menu a:nth-child(3){transition-delay:.24s}
-  body.aberto .menu a:nth-child(4){transition-delay:.3s}
-  .menu a::after{display:none}
-}
-
-/* ============ BOTOES ============ */
-.btn{display:inline-flex;align-items:center;gap:12px;padding:16px 26px;border:0;cursor:pointer;
-  font-family:var(--mono);font-size:.82rem;letter-spacing:.09em;text-transform:uppercase;
-  text-decoration:none;position:relative;overflow:hidden;background:var(--sinal);color:var(--tinta)}
-.btn span{position:relative;z-index:2}
-.btn::before{content:"";position:absolute;inset:0;background:var(--tinta);transform:translateY(101%);
-  transition:transform .5s var(--ease);z-index:1}
-.btn:hover::before{transform:translateY(0)}
-.btn:hover{color:var(--sinal)}
-.btn .seta{position:relative;z-index:2;transition:transform .5s var(--ease)}
-.btn:hover .seta{transform:translateX(6px)}
-.btn-vazado{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35)}
-.btn-vazado::before{background:#fff}
-.btn-vazado:hover{color:var(--tinta)}
-
-/* ============ HERO ============ */
-.hero{background:var(--tinta);color:#fff;min-height:100svh;display:flex;flex-direction:column;
-  justify-content:flex-end;padding-top:120px;position:relative;overflow:hidden}
-.hero-grade{position:absolute;inset:0;opacity:.5;
-  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
-  background-size:78px 78px;mask-image:radial-gradient(120% 90% at 50% 20%,#000,transparent 78%)}
-.hero-conteudo{padding:0 var(--mx) clamp(38px,5vw,60px);position:relative;z-index:3;width:100%}
-.hero h1{max-width:15ch;margin:26px 0 0}
-.linha{display:block;overflow:hidden}
-.linha i{display:block;font-style:normal;transform:translateY(105%);
-  transition:transform 1.05s var(--ease)}
-.carregado .linha i{transform:translateY(0)}
-.carregado .linha:nth-child(2) i{transition-delay:.09s}
-.carregado .linha:nth-child(3) i{transition-delay:.18s}
-.hero-baixo{display:flex;gap:clamp(24px,5vw,70px);align-items:flex-end;flex-wrap:wrap;margin-top:34px}
-.hero p{max-width:44ch;color:rgba(255,255,255,.66);font-size:clamp(1rem,1.35vw,1.16rem)}
-.hero-acoes{display:flex;gap:12px;flex-wrap:wrap}
-.sobe{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
-.carregado .sobe{opacity:1;transform:none}
-.carregado .d1{transition-delay:.42s}
-.carregado .d2{transition-delay:.52s}
-.carregado .d3{transition-delay:.62s}
-
-/* ---- ESTEIRA (elemento assinatura) ---- */
-.esteira{position:relative;z-index:2;border-top:var(--borda-clara);background:#0D1216;
-  padding:22px 0 0;overflow:hidden}
-.esteira-rotulo{display:flex;justify-content:space-between;gap:16px;padding:0 var(--mx) 16px;
-  font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
-  color:rgba(255,255,255,.4)}
-.pista{position:relative;overflow:hidden;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);
-  mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
-.trilho{display:flex;width:max-content;animation:desliza 42s linear infinite}
-.pista-volta .trilho{animation-direction:reverse;animation-duration:34s}
-.lote{display:flex;gap:12px;padding-right:12px}
-@keyframes desliza{to{transform:translateX(-50%)}}
-.chip{white-space:nowrap;padding:11px 18px;font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;
-  border:1px solid rgba(166,58,78,.55);color:rgba(255,255,255,.72);display:flex;align-items:center;gap:10px}
-.chip::before{content:"";width:7px;height:7px;background:var(--alerta);border-radius:50%;flex:none}
-.chip-tempo{border:0;background:var(--sinal);color:var(--tinta);font-weight:700}
-.chip-tempo::before{background:var(--tinta)}
-/* correia */
-.correia{height:26px;margin:14px 0;background:
-  repeating-linear-gradient(115deg,#1D262C 0 16px,#0D1216 16px 32px);
-  border-top:1px solid rgba(255,255,255,.09);border-bottom:1px solid rgba(255,255,255,.09);
-  animation:correr 1.1s linear infinite}
-@keyframes correr{to{background-position:-64px 0}}
-/* cabeca da maquina */
-.maquina{position:absolute;left:50%;top:-6px;transform:translateX(-50%);z-index:4;pointer-events:none}
-.maquina-corpo{width:86px;height:58px;background:var(--tinta-2);border:1px solid rgba(255,255,255,.18);
-  position:relative;animation:balanca 3.6s ease-in-out infinite}
-.maquina-corpo::before{content:"";position:absolute;inset:0 0 auto 0;height:7px;
-  background:repeating-linear-gradient(45deg,var(--sinal) 0 2px,transparent 2px 7px)}
-.olho{position:absolute;left:14px;top:26px;width:11px;height:11px;border-radius:50%;background:var(--sinal);
-  box-shadow:0 0 12px rgba(159,208,227,.55);animation:varre 3.6s ease-in-out infinite}
-@keyframes varre{0%,100%{transform:translateX(0)}50%{transform:translateX(46px)}}
-@keyframes balanca{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-.feixe{position:absolute;left:50%;top:56px;width:120px;height:78px;transform:translateX(-50%);
-  background:linear-gradient(180deg,rgba(159,208,227,.30),rgba(159,208,227,0));
-  clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);animation:pulsa 3.6s ease-in-out infinite}
-@keyframes pulsa{0%,100%{opacity:.5}50%{opacity:1}}
-@media (max-width:700px){.maquina{display:none}}
-
-/* ============ FAIXA ============ */
-.faixa{background:var(--fiorde);color:var(--papel);padding:16px 0;overflow:hidden;
-  border-top:1px solid var(--tinta);border-bottom:1px solid var(--tinta)}
-.faixa .trilho{animation-duration:26s}
-.faixa .lote{gap:0;padding:0}
-.faixa b{font-family:var(--display);font-variation-settings:'wdth' 112,'wght' 800;
-  font-size:clamp(1.1rem,2.4vw,1.8rem);letter-spacing:-.02em;text-transform:uppercase;
-  padding:0 26px;display:flex;align-items:center;gap:26px;white-space:nowrap}
-.faixa b::after{content:"";width:8px;height:8px;background:var(--sinal);transform:rotate(45deg)}
-
-/* ============ REVELAR NO SCROLL ============ */
-.rev{opacity:0;transform:translateY(38px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
-.rev.vis{opacity:1;transform:none}
-.rev[data-atraso="1"]{transition-delay:.1s}
-.rev[data-atraso="2"]{transition-delay:.2s}
-.rev[data-atraso="3"]{transition-delay:.3s}
-
-/* ============ CALCULADORA ============ */
-.conta{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,70px);margin-top:52px;align-items:start}
-@media (max-width:900px){.conta{grid-template-columns:1fr}}
-.controle{padding:22px 0;border-top:var(--borda)}
-.controle:last-child{border-bottom:var(--borda)}
-.controle-topo{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-bottom:14px}
-.controle label{font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--grafite)}
-.controle output{font-family:var(--display);font-variation-settings:'wdth' 100,'wght' 800;font-size:1.5rem;letter-spacing:-.02em}
-input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:3px;background:rgba(18,24,29,.16);cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;background:var(--sinal);
-  border:2px solid var(--tinta);cursor:grab;transition:transform .25s var(--ease)}
-input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.18)}
-input[type=range]::-moz-range-thumb{width:22px;height:22px;background:var(--sinal);border:2px solid var(--tinta);cursor:grab}
-.painel{background:var(--tinta);color:#fff;padding:clamp(28px,4vw,44px);position:relative;overflow:hidden}
-.painel::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;
-  background:repeating-linear-gradient(45deg,var(--sinal) 0 2px,transparent 2px 8px)}
-.numerao{font-family:var(--display);font-variation-settings:'wdth' 125,'wght' 800;
-  font-size:clamp(3.2rem,8vw,5.6rem);line-height:.86;letter-spacing:-.045em;color:var(--sinal);
-  font-variant-numeric:tabular-nums}
-.painel-item{padding:22px 0;border-bottom:var(--borda-clara)}
-.painel-item:last-of-type{border-bottom:0}
-.painel-item p{font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
-  color:rgba(255,255,255,.5);margin-bottom:10px}
-.nota{font-size:.85rem;color:var(--grafite);margin-top:18px;max-width:52ch}
-
-/* ============ PROCESSO (fixado no scroll) ============ */
-.processo{background:var(--tinta);color:#fff}
-.processo-alvo{height:420vh;position:relative}
-.processo-fixo{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;justify-content:center;
-  padding:100px var(--mx) 60px;overflow:hidden}
-.trilha{display:flex;gap:6px;margin-bottom:auto}
-.trilha i{flex:1;height:3px;background:rgba(255,255,255,.16);position:relative;overflow:hidden}
-.trilha i::after{content:"";position:absolute;inset:0;background:var(--sinal);transform:scaleX(var(--p,0));
-  transform-origin:left;transition:transform .45s linear}
-.palcos{position:relative;flex:1;display:flex;align-items:center}
-.palco{position:absolute;inset:0;display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,64px);
-  align-items:center;opacity:0;transform:translateY(34px);pointer-events:none;
-  transition:opacity .6s var(--ease),transform .6s var(--ease)}
-.palco.ativo{opacity:1;transform:none;pointer-events:auto}
-.palco-num{font-family:var(--display);font-variation-settings:'wdth' 125,'wght' 800;
-  font-size:clamp(4rem,15vw,12rem);line-height:.8;letter-spacing:-.06em;color:transparent;
-  -webkit-text-stroke:2px rgba(255,255,255,.28)}
-.palco.ativo .palco-num{-webkit-text-stroke:2px var(--sinal)}
-.palco-txt{max-width:56ch}
-.palco-txt h3{font-size:clamp(1.8rem,4.4vw,3.2rem);font-variation-settings:'wdth' 108,'wght' 800;
-  letter-spacing:-.035em;margin-bottom:16px}
-.palco-txt p{color:rgba(255,255,255,.66)}
-.palco-txt ul{list-style:none;margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
-.palco-txt li{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
-  padding:8px 13px;border:var(--borda-clara);color:rgba(255,255,255,.7)}
-@media (max-width:760px){
-  .palco{grid-template-columns:1fr;align-content:center;gap:10px}
-  .processo-alvo{height:380vh}
-}
-
-/* ============ GRADE DO QUE FAZEMOS ============ */
-.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(18,24,29,.13);
-  border:var(--borda);margin-top:56px}
-@media (max-width:900px){.grade{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:600px){.grade{grid-template-columns:1fr}}
-.cartao{background:var(--gelo);padding:clamp(26px,3vw,40px);min-height:270px;display:flex;flex-direction:column;
-  position:relative;overflow:hidden;transition:color .5s var(--ease)}
-.cartao::before{content:"";position:absolute;inset:0;background:var(--sinal);transform:translateY(100%);
-  transition:transform .6s var(--ease);z-index:0}
-.cartao:hover::before{transform:translateY(0)}
-.cartao > *{position:relative;z-index:1}
-.cartao-id{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;color:var(--grafite);margin-bottom:auto}
-.cartao:hover .cartao-id{color:var(--tinta)}
-.cartao h3{margin:52px 0 12px;max-width:16ch}
-.cartao p{font-size:.94rem;color:var(--grafite)}
-.cartao:hover p{color:rgba(18,24,29,.78)}
-
-/* ============ MANIFESTO ============ */
-.manifesto{background:var(--papel);overflow:hidden}
-.manifesto-txt{font-family:var(--display);font-variation-settings:'wdth' 105,'wght' 700;
-  font-size:clamp(1.9rem,4.6vw,3.6rem);line-height:1.05;letter-spacing:-.035em;max-width:22ch}
-.manifesto-txt em{font-style:normal;background:var(--sinal);padding:0 .12em;box-decoration-break:clone;
-  -webkit-box-decoration-break:clone}
-.manifesto-marca{position:absolute;right:-4vw;bottom:-2vw;font-family:var(--display);
-  font-variation-settings:'wdth' 125,'wght' 800;font-size:clamp(6rem,18vw,16rem);line-height:.8;
-  color:transparent;-webkit-text-stroke:1.5px rgba(18,24,29,.11);pointer-events:none;user-select:none;
-  white-space:nowrap;will-change:transform}
-.assinatura{display:flex;gap:14px;align-items:center;margin-top:36px;font-family:var(--mono);
-  font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--grafite)}
-.assinatura::before{content:"";width:44px;height:2px;background:var(--tinta)}
-
-/* ============ CONTATO ============ */
-.contato-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(34px,6vw,80px);margin-top:48px;align-items:start}
-@media (max-width:900px){.contato-grid{grid-template-columns:1fr}}
-.campo{border-bottom:var(--borda-clara);padding:18px 0;position:relative}
-.campo label{display:block;font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
-  color:rgba(255,255,255,.45);margin-bottom:9px}
-.campo input,.campo textarea{width:100%;background:transparent;border:0;color:#fff;font-family:var(--corpo);
-  font-size:1.05rem;resize:vertical}
-.campo input::placeholder,.campo textarea::placeholder{color:rgba(255,255,255,.28)}
-.campo input:focus,.campo textarea:focus{outline:0}
-.campo::after{content:"";position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:var(--sinal);
-  transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
-.campo:focus-within::after{transform:scaleX(1)}
-.recado{margin-top:24px;font-family:var(--mono);font-size:.82rem;color:var(--sinal);
-  opacity:0;transform:translateY(10px);transition:.5s var(--ease)}
-.recado.vis{opacity:1;transform:none}
-.contato-info{font-family:var(--mono);font-size:.86rem;line-height:2;color:rgba(255,255,255,.6)}
-.contato-info div{display:flex;align-items:center;gap:11px}
-.contato-info a{color:#fff;text-decoration:none;border-bottom:1px solid var(--sinal)}
-.ico{width:17px;height:17px;flex:none;fill:var(--sinal);transition:transform .4s var(--ease)}
-.contato-info div:hover .ico{transform:translateY(-2px)}
-
-/* ============ RODAPE ============ */
-.rodape{background:var(--tinta);color:#fff;padding:60px var(--mx) 0;overflow:hidden}
-.rodape-linha{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
-  font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;
-  color:rgba(255,255,255,.4);padding-bottom:34px;border-bottom:var(--borda-clara)}
-.rodape-linha a{color:rgba(255,255,255,.72);text-decoration:none;transition:color .35s var(--ease);
-  display:inline-flex;align-items:center;gap:8px}
-.rodape-linha a:hover{color:var(--sinal)}
-.rodape-canais{display:flex;gap:26px;flex-wrap:wrap}
-.ico-p{width:14px;height:14px}
-.rodape-linha a:hover .ico-p{transform:translateY(-2px)}
-.rodape-marca{font-family:var(--display);font-variation-settings:'wdth' 125,'wght' 800;
-  font-size:clamp(3.4rem,15.5vw,15rem);line-height:.8;letter-spacing:-.05em;padding:34px 0 10px;
-  white-space:nowrap;will-change:transform}
-
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
-  .rev,.sobe{opacity:1!important;transform:none!important}
-  .linha i{transform:none!important}
-  html{scroll-behavior:auto}
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Braço Digital — menos trabalho repetitivo</title>
+  <meta name="description" content="Automação de tarefas repetitivas para empresas ganharem controle e tempo para decidir.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Braço Digital">
+  <meta property="og:title" content="Menos trabalho repetitivo. Mais controle.">
+  <meta property="og:description" content="Descubra quanto tempo tarefas repetitivas consomem e analise o que pode acontecer sozinho.">
+  <meta property="og:url" content="https://bracodigital.com.br/">
+  <meta property="og:image" content="https://bracodigital.com.br/assets/og-imagem.png">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#12181d">
+  <link rel="canonical" href="https://bracodigital.com.br/">
+  <link rel="icon" href="assets/favicon-180.png">
+  <link rel="apple-touch-icon" href="assets/favicon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--gelo:#e7ebed;--papel:#f1f4f5;--tinta:#12181d;--tinta2:#1b232a;--grafite:#65727c;--sinal:#9fd0e3;--fiorde:#2c5f7c;--alerta:#a63a4e;--display:'Archivo',system-ui,sans-serif;--corpo:'Inter',system-ui,sans-serif;--mono:'Space Mono',monospace;--mx:clamp(20px,5vw,88px);--borda:1px solid rgba(18,24,29,.15);--ease:cubic-bezier(.16,1,.3,1)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:82px}body{margin:0;background:var(--gelo);color:var(--tinta);font:17px/1.58 var(--corpo);overflow-x:hidden}img{display:block;max-width:100%}a{color:inherit}:focus-visible{outline:3px solid var(--sinal);outline-offset:3px}::selection{background:var(--sinal)}
+    h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--display);font-variation-settings:'wdth' 112,'wght' 800;letter-spacing:-.04em;line-height:.96;text-wrap:balance}h1{font-size:clamp(2.65rem,7.4vw,6.8rem);max-width:15ch}h2{font-size:clamp(2.05rem,5vw,4.3rem);max-width:17ch}h3{font-size:clamp(1.25rem,2vw,1.65rem);font-variation-settings:'wdth' 100,'wght' 700}.wrap{padding:clamp(76px,10vw,138px) var(--mx)}.dark{background:var(--tinta);color:#fff}.muted{color:var(--grafite)}.dark .muted{color:rgba(255,255,255,.65)}.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:22px;color:var(--grafite);font:700 .72rem/1 var(--mono);letter-spacing:.18em;text-transform:uppercase}.eyebrow:before{content:'';width:34px;height:2px;background:var(--fiorde)}.dark .eyebrow{color:rgba(255,255,255,.55)}.dark .eyebrow:before{background:var(--sinal)}
+    .nav{position:fixed;z-index:20;inset:0 0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px var(--mx);background:rgba(18,24,29,.94);border-bottom:1px solid rgba(255,255,255,.13);backdrop-filter:blur(12px)}.brand img{width:156px;height:auto}.menu{display:flex;align-items:center;gap:clamp(14px,2.5vw,30px)}.menu a{color:rgba(255,255,255,.78);font:.75rem var(--mono);text-decoration:none}.menu .menu-cta{padding:11px 14px;color:var(--tinta);background:var(--sinal);font-weight:700}.hamb{display:none;padding:10px;background:none;color:#fff;border:1px solid rgba(255,255,255,.3);font:700 .75rem var(--mono)}
+    .hero{min-height:100svh;display:flex;align-items:flex-end;position:relative;overflow:hidden;padding-top:110px}.hero:before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(circle at 60% 35%,#000,transparent 72%)}.hero-inner{position:relative;width:100%;padding:70px var(--mx)}.hero h1{margin-bottom:30px}.hero-lead{max-width:680px;font-size:clamp(1.15rem,2vw,1.55rem);color:var(--sinal);font-weight:600}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:14px 22px;border:1px solid var(--sinal);background:var(--sinal);color:var(--tinta);font:700 .76rem var(--mono);letter-spacing:.05em;text-decoration:none;text-transform:uppercase;cursor:pointer}.btn.secondary{background:transparent;color:#fff;border-color:rgba(255,255,255,.42)}.btn:hover{filter:brightness(1.06);transform:translateY(-1px)}
+    .intro{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,7vw,110px)}.task-list{display:grid;grid-template-columns:repeat(2,1fr);border-top:var(--borda)}.task{padding:22px 16px 22px 0;border-bottom:var(--borda)}.task span{display:block;margin-bottom:9px;color:var(--fiorde);font:700 .72rem var(--mono)}
+    .cases-head{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:48px}.cases-head p{max-width:42ch}.cases{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.case{padding:clamp(24px,4vw,40px);background:var(--tinta2);border-top:5px solid var(--sinal)}.case-number{color:var(--sinal);font:700 .72rem var(--mono)}.case h3{margin:18px 0 28px}.case dl{margin:0}.case dt{margin-top:17px;color:var(--sinal);font:700 .68rem var(--mono);letter-spacing:.12em;text-transform:uppercase}.case dd{margin:5px 0 0;color:rgba(255,255,255,.72)}
+    .calculator{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,6vw,80px);margin-top:45px}.fields{display:grid;gap:20px}.field label,.form-field label{display:block;margin-bottom:8px;font:700 .72rem var(--mono);letter-spacing:.04em}.field input,.form-field input,.form-field textarea{width:100%;min-height:50px;padding:12px;border:1px solid rgba(18,24,29,.28);border-radius:0;background:var(--papel);color:var(--tinta);font:1rem var(--corpo)}.form-field textarea{min-height:126px;resize:vertical}.help{margin:8px 0 0;color:var(--grafite);font-size:.8rem}.results{padding:clamp(28px,5vw,48px);background:var(--tinta);color:#fff;border-top:6px solid var(--sinal)}.result{padding:17px 0;border-bottom:1px solid rgba(255,255,255,.15)}.result span{display:block;color:rgba(255,255,255,.57);font:.7rem var(--mono);text-transform:uppercase}.result strong{display:block;margin-top:7px;color:var(--sinal);font:800 clamp(2rem,5vw,4rem)/1 var(--display)}.formula{margin:22px 0 0;color:rgba(255,255,255,.55);font-size:.75rem}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:45px;background:rgba(255,255,255,.16)}.step{padding:clamp(24px,4vw,42px);background:var(--tinta)}.step b{color:var(--sinal);font:700 .75rem var(--mono)}.step h3{margin-top:35px}.areas{display:flex;flex-wrap:wrap;gap:10px;margin-top:38px}.areas span{padding:12px 16px;border:var(--borda);background:var(--papel);font:700 .76rem var(--mono)}
+    .human{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,7vw,100px);align-items:center}.human-note{padding:clamp(26px,4vw,44px);border-left:5px solid var(--sinal);background:var(--tinta2)}.human-note p:last-child{margin-bottom:0}
+    .contact-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(34px,7vw,100px)}.form{display:grid;grid-template-columns:1fr 1fr;gap:19px}.form-field.full{grid-column:1/-1}.required{color:var(--alerta)}.honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}.consent{grid-column:1/-1;display:flex;gap:10px;align-items:flex-start;font-size:.82rem;color:var(--grafite)}.consent input{width:18px;height:18px;flex:none;margin-top:2px}.form-actions{grid-column:1/-1;display:flex;align-items:center;gap:18px;flex-wrap:wrap}.status{font-size:.9rem}.status[aria-live]{min-height:1.5em}.success{padding:24px;background:#dcebee;border-left:5px solid var(--fiorde)}
+    .faq{max-width:900px;margin-top:40px}.faq details{border-top:var(--borda);padding:20px 0}.faq details:last-child{border-bottom:var(--borda)}.faq summary{cursor:pointer;font:700 1rem var(--mono)}.faq details p{margin:14px 0 0;max-width:70ch;color:var(--grafite)}.final{text-align:center}.final h2{margin-inline:auto}.footer{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:35px var(--mx);background:#0d1216;color:rgba(255,255,255,.55);font-size:.8rem}.footer img{width:120px}
+    @media(max-width:850px){.hamb{display:block}.menu{position:absolute;top:100%;left:0;right:0;display:none;flex-direction:column;align-items:stretch;padding:16px var(--mx) 24px;background:var(--tinta)}body.menu-open .menu{display:flex}.menu a{padding:10px}.intro,.human,.contact-grid{grid-template-columns:1fr}.cases,.calculator{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.cases-head{display:block}.form{grid-template-columns:1fr}.form-field.full,.consent,.form-actions{grid-column:1}.task-list{grid-template-columns:1fr}}
+    @media(max-width:480px){body{font-size:16px}.actions,.actions .btn,.form-actions,.form-actions .btn{width:100%}.hero-inner{padding-bottom:48px}.case{padding:24px}.result strong{overflow-wrap:anywhere}.footer{align-items:flex-start;flex-direction:column}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+  </style>
 </head>
 <body>
+  <header class="nav">
+    <a class="brand" href="#inicio" aria-label="Braço Digital — início"><img src="assets/logo-header.png" alt="Braço Digital" width="312" height="80"></a>
+    <button class="hamb" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+    <nav class="menu" id="menu" aria-label="Navegação principal">
+      <a href="#solucoes">Soluções</a><a href="#cases">Cases</a><a href="#como-funciona">Como funciona</a><a href="#faq">FAQ</a><a class="menu-cta" href="#diagnostico">Analisar meu processo</a>
+    </nav>
+  </header>
 
-<div class="cursor" id="cursor" aria-hidden="true"></div>
-
-<header class="topo" id="topo">
-  <a href="#topo" class="marca" data-hover>
-    <img class="marca-logo" src="assets/logo-header.png" alt="Braço Digital" aria-hidden="true">
-    Braço Digital
-  </a>
-  <nav class="menu" id="menu">
-    <a href="#conta" data-hover>A conta</a>
-    <a href="#como" data-hover>Como funciona</a>
-    <a href="#automatizar" data-hover>O que automatizamos</a>
-    <a href="#contato" data-hover>Falar com a gente</a>
-  </nav>
-  <button class="hamb" id="hamb" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
-</header>
-
-<main>
-
-<!-- ============ HERO ============ -->
-<section class="hero" id="inicio">
-  <div class="hero-grade" aria-hidden="true"></div>
-
-  <div class="hero-conteudo">
-    <p class="eyebrow sobe d1">Automação de processos para pequenas e médias empresas</p>
-    <h1>
-      <span class="linha"><i>O repetitivo</i></span>
-      <span class="linha"><i>é nosso.</i></span>
-      <span class="linha"><i class="sinal-txt">O que importa é seu.</i></span>
-    </h1>
-    <div class="hero-baixo">
-      <p class="sobe d2">A Braço Digital tira da mão do seu time as tarefas que se repetem todo dia — planilhas, relatórios, conferências, e-mails de rotina — e devolve as horas para o trabalho que só gente faz.</p>
-      <div class="hero-acoes sobe d3">
-        <a href="#contato" class="btn" data-hover><span>Quero um diagnóstico</span><span class="seta">→</span></a>
-        <a href="#automatizar" class="btn btn-vazado" data-hover><span>Ver o que dá pra automatizar</span></a>
+  <main>
+    <section class="hero dark" id="inicio">
+      <div class="hero-inner">
+        <p class="eyebrow">Automação de processos</p>
+        <h1>Sua empresa ainda paga pessoas para fazer tarefas que poderiam acontecer sozinhas?</h1>
+        <p class="hero-lead">Menos trabalho repetitivo. Mais controle. Mais tempo para decidir.</p>
+        <p class="muted">Mapeamos rotinas operacionais e criamos automações sob medida, com acompanhamento humano onde ele realmente importa.</p>
+        <div class="actions"><a class="btn" href="#calculadora">Calcular tempo perdido</a><a class="btn secondary" href="#cases">Ver cases</a></div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- Esteira: tarefa manual entra, tempo sai -->
-  <div class="esteira" aria-hidden="true">
-    <div class="esteira-rotulo">
-      <span>Entra: trabalho manual</span>
-      <span>Sai: tempo do seu time</span>
-    </div>
-
-    <div class="maquina">
-      <div class="maquina-corpo"><span class="olho"></span></div>
-      <div class="feixe"></div>
-    </div>
-
-    <div class="pista">
-      <div class="trilho">
-        <div class="lote" id="loteA"></div>
-        <div class="lote" id="loteB"></div>
-      </div>
-    </div>
-
-    <div class="correia"></div>
-
-    <div class="pista pista-volta">
-      <div class="trilho">
-        <div class="lote" id="loteC"></div>
-        <div class="lote" id="loteD"></div>
-      </div>
-    </div>
-    <div style="height:22px"></div>
-  </div>
-</section>
-
-<!-- ============ FAIXA ============ -->
-<div class="faixa" aria-hidden="true">
-  <div class="trilho">
-    <div class="lote">
-      <b>Menos copiar e colar</b><b>Menos retrabalho</b><b>Menos planilha na mão</b><b>Mais tempo</b>
-    </div>
-    <div class="lote">
-      <b>Menos copiar e colar</b><b>Menos retrabalho</b><b>Menos planilha na mão</b><b>Mais tempo</b>
-    </div>
-  </div>
-</div>
-
-<!-- ============ CALCULADORA ============ -->
-<section class="wrap" id="conta">
-  <p class="eyebrow rev">A conta que ninguém faz</p>
-  <h2 class="rev" data-atraso="1" style="margin-top:22px;max-width:17ch">Quanto o repetitivo custa por ano</h2>
-
-  <div class="conta">
-    <div class="rev" data-atraso="1">
-      <p style="color:var(--grafite);max-width:46ch;margin-bottom:26px">Mexa nos controles com os números da sua empresa. É uma estimativa grosseira — mas costuma ser a primeira vez que alguém coloca esse custo no papel.</p>
-
-      <div class="controle">
-        <div class="controle-topo">
-          <label for="pessoas">Pessoas na operação</label>
-          <output id="outPessoas">8</output>
-        </div>
-        <input type="range" id="pessoas" min="1" max="60" value="8" data-hover>
-      </div>
-
-      <div class="controle">
-        <div class="controle-topo">
-          <label for="horas">Horas repetitivas por pessoa/semana</label>
-          <output id="outHoras">6h</output>
-        </div>
-        <input type="range" id="horas" min="1" max="25" value="6" data-hover>
-      </div>
-
-      <div class="controle">
-        <div class="controle-topo">
-          <label for="custo">Custo médio da hora</label>
-          <output id="outCusto">R$ 45</output>
-        </div>
-        <input type="range" id="custo" min="15" max="250" step="5" value="45" data-hover>
-      </div>
-
-      <p class="nota">Consideramos 48 semanas trabalhadas por ano. No diagnóstico a gente mede o número real, processo por processo.</p>
-    </div>
-
-    <div class="painel rev" data-atraso="2">
-      <div class="painel-item" style="padding-top:34px">
-        <p>Horas por ano em tarefas repetitivas</p>
-        <div class="numerao" id="resHoras">2.304</div>
-      </div>
-      <div class="painel-item">
-        <p>Em dinheiro, por ano</p>
-        <div class="numerao" id="resReais">R$ 103.680</div>
-      </div>
-      <div class="painel-item">
-        <p>Equivale a pessoas trabalhando o ano inteiro só nisso</p>
-        <div class="numerao" id="resPessoas">1,2</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ PROCESSO FIXADO ============ -->
-<section class="processo" id="como">
-  <div class="processo-alvo" id="alvo">
-    <div class="processo-fixo escuro">
-      <div style="margin-bottom:34px">
-        <p class="eyebrow">Como funciona</p>
-      </div>
-
-      <div class="trilha" id="trilha">
-        <i style="--p:0"></i><i style="--p:0"></i><i style="--p:0"></i><i style="--p:0"></i>
-      </div>
-
-      <div class="palcos" id="palcos">
-        <article class="palco ativo">
-          <div class="palco-num">01</div>
-          <div class="palco-txt">
-            <h3>Sentamos junto do time</h3>
-            <p>A gente acompanha a tarefa do começo ao fim, com quem executa. Sem questionário, sem achismo. Saímos de lá sabendo onde o tempo vaza e quanto isso pesa por mês.</p>
-            <ul><li>Visita ou call</li><li>Mapa do processo</li><li>Tempo medido</li></ul>
+    <section class="wrap" id="solucoes">
+      <div class="intro">
+        <div><p class="eyebrow">O problema</p><h2>O trabalho invisível que ocupa a equipe.</h2></div>
+        <div><p>Copiar dados, conferir planilhas, cobrar respostas e montar relatórios parecem tarefas pequenas. Somadas, viram horas de operação e aumentam o risco de atraso e erro.</p>
+          <div class="task-list">
+            <div class="task"><span>01</span>Atualizar planilhas e sistemas</div><div class="task"><span>02</span>Conferir pagamentos e documentos</div><div class="task"><span>03</span>Enviar cobranças e lembretes</div><div class="task"><span>04</span>Consolidar dados e relatórios</div>
           </div>
-        </article>
-        <article class="palco">
-          <div class="palco-num">02</div>
-          <div class="palco-txt">
-            <h3>Desenhamos e você aprova</h3>
-            <p>Você vê o passo a passo do que vai rodar sozinho, o que continua na mão e o que acontece quando algo dá errado. Nada é construído antes desse aceite.</p>
-            <ul><li>Escopo fechado</li><li>Prazo por etapa</li><li>Preço definido</li></ul>
-          </div>
-        </article>
-        <article class="palco">
-          <div class="palco-num">03</div>
-          <div class="palco-txt">
-            <h3>Colocamos pra rodar</h3>
-            <p>Entregamos em partes: a primeira automação vai ao ar em semanas, não em meses. Rodamos em paralelo com o processo antigo até você confiar no resultado.</p>
-            <ul><li>Entrega em marcos</li><li>Roda em paralelo</li><li>Time treinado</li></ul>
-          </div>
-        </article>
-        <article class="palco">
-          <div class="palco-num">04</div>
-          <div class="palco-txt">
-            <h3>Acompanhamos depois</h3>
-            <p>Automação não é entrega, é rotina. Monitoramos as execuções, avisamos quando algo falha e ajustamos conforme sua operação muda. Você recebe o relatório de horas devolvidas.</p>
-            <ul><li>Monitoramento</li><li>Ajustes</li><li>Relatório mensal</li></ul>
-          </div>
-        </article>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ O QUE AUTOMATIZAMOS ============ -->
-<section class="wrap" id="automatizar">
-  <p class="eyebrow rev">O que sai da sua mão</p>
-  <h2 class="rev" data-atraso="1" style="margin-top:22px;max-width:16ch">Começa sempre pelo que mais dói</h2>
-
-  <div class="grade">
-    <article class="cartao rev" data-hover>
-      <span class="cartao-id">01 / Planilhas</span>
-      <h3>Planilhas que se atualizam sozinhas</h3>
-      <p>Os dados chegam do sistema, do e-mail ou do formulário e caem na planilha certa, no formato certo, sem ninguém digitar.</p>
-    </article>
-    <article class="cartao rev" data-atraso="1" data-hover>
-      <span class="cartao-id">02 / Relatórios</span>
-      <h3>Relatório pronto toda segunda</h3>
-      <p>O fechamento que toma a manhã inteira vira um arquivo que já está na sua caixa quando você abre o computador.</p>
-    </article>
-    <article class="cartao rev" data-atraso="2" data-hover>
-      <span class="cartao-id">03 / Financeiro</span>
-      <h3>Notas e boletos conferidos</h3>
-      <p>Leitura de nota fiscal, conferência contra o pedido e aviso do que está divergente — antes de virar problema no fechamento.</p>
-    </article>
-    <article class="cartao rev" data-hover>
-      <span class="cartao-id">04 / Atendimento</span>
-      <h3>Mensagens de rotina respondidas</h3>
-      <p>Confirmação, cobrança, lembrete e segunda via saem no horário certo. O que é exceção continua chegando em uma pessoa.</p>
-    </article>
-    <article class="cartao rev" data-atraso="1" data-hover>
-      <span class="cartao-id">05 / Integrações</span>
-      <h3>Dados que passam de um sistema pro outro</h3>
-      <p>Seu ERP, sua planilha e sua ferramenta de vendas param de depender de alguém fazendo a ponte no copiar e colar.</p>
-    </article>
-    <article class="cartao rev" data-atraso="2" data-hover>
-      <span class="cartao-id">06 / Cadastros</span>
-      <h3>Fim da digitação dupla</h3>
-      <p>O que foi preenchido uma vez não é preenchido de novo. Menos digitação, menos erro, menos conferência depois.</p>
-    </article>
-  </div>
-</section>
-
-<!-- ============ MANIFESTO ============ -->
-<section class="wrap manifesto">
-  <p class="eyebrow rev">Onde a gente não mexe</p>
-  <p class="manifesto-txt rev" data-atraso="1" style="margin-top:28px">
-    Automação boa não tira gente da empresa. Ela tira <em>da gente</em> o trabalho que ninguém queria fazer.
-  </p>
-  <p class="rev" data-atraso="2" style="max-width:50ch;margin-top:26px;color:var(--grafite)">
-    Julgamento, relacionamento com o cliente, negociação, cuidado com o detalhe: isso continua sendo do seu time — e passa a ter espaço na agenda. Se um processo precisa de bom senso, ele fica com quem tem.
-  </p>
-  <p class="assinatura rev" data-atraso="3">Braço Digital — automação que complementa o time</p>
-  <span class="manifesto-marca" id="marcaFundo" aria-hidden="true">BRAÇO DIGITAL</span>
-</section>
-
-<!-- ============ CONTATO ============ -->
-<section class="wrap escuro" id="contato">
-  <p class="eyebrow rev">Primeiro passo</p>
-  <h2 class="rev" data-atraso="1" style="margin-top:22px;max-width:15ch">Conta qual tarefa te consome mais tempo</h2>
-
-  <div class="contato-grid">
-    <div class="rev" data-atraso="1">
-      <p style="color:rgba(255,255,255,.66);max-width:42ch">O diagnóstico é uma conversa de uma hora. Você sai dela com uma lista do que dá para automatizar, em que ordem e quanto tempo cada item devolve. Sem compromisso de contratar nada.</p>
-      <div class="contato-info" style="margin-top:34px">
-        <div>
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
-          <a href="mailto:contato@bracodigital.com.br" data-hover>contato@bracodigital.com.br</a>
-        </div>
-        <div>
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><title>WhatsApp</title><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-          <a href="https://wa.me/5521988738405" target="_blank" rel="noopener" data-hover>(21) 98873-8405</a>
-        </div>
-        <div>
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><title>Instagram</title><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm7.846-10.405a1.441 1.441 0 0 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg>
-          <a href="https://instagram.com/braco.digital" target="_blank" rel="noopener" data-hover>@braco.digital</a>
-        </div>
-        <div>
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
-          <span>Atendimento remoto em todo o Brasil</span>
         </div>
       </div>
-    </div>
+    </section>
 
-    <form class="rev" data-atraso="2" id="form" novalidate>
-      <div class="campo">
-        <label for="nome">Nome</label>
-        <input id="nome" name="nome" type="text" placeholder="Como te chamamos" required>
+    <section class="wrap dark" id="cases">
+      <div class="cases-head"><div><p class="eyebrow">Cases anônimos</p><h2>Da tarefa manual ao processo controlado.</h2></div><p class="muted">Exemplos de processos realizados sem identificar empresas. Cada solução depende do contexto e não representa promessa de resultado futuro.</p></div>
+      <div class="cases">
+        <article class="case"><span class="case-number">CASE 01</span><h3>Controle de pagamentos</h3><dl><dt>Antes</dt><dd>Conferências dispersas e acompanhamento manual de cada pagamento.</dd><dt>Solução</dt><dd>Fluxo centralizado para organizar dados, status e pendências.</dd><dt>Resultado</dt><dd>Mais de 100 pagamentos controlados em um único mês</dd></dl></article>
+        <article class="case"><span class="case-number">CASE 02</span><h3>Apoio à análise tributária</h3><dl><dt>Antes</dt><dd>Dados operacionais fragmentados dificultavam a análise pelo contador.</dd><dt>Solução</dt><dd>Organização e cruzamento de informações para apoiar e auxiliar a análise do contador — nunca substituir nem realizar o trabalho do contador.</dd><dt>Resultado</dt><dd>Identificação de oportunidade potencial de economia tributária de dezenas de milhares por ano, sujeita à validação e decisão do contador.</dd></dl></article>
+        <article class="case"><span class="case-number">CASE 03</span><h3>Monitoramento automático de publicações oficiais</h3><dl><dt>Antes</dt><dd>A equipe fazia consultas manuais para localizar novas publicações oficiais.</dd><dt>Solução</dt><dd>Busca novas publicações, elimina duplicados, acompanha assuntos e consolida um relatório com notificação.</dd><dt>Resultado</dt><dd>Novidades relevantes reunidas para acompanhamento, sem repetir consultas manuais.</dd></dl></article>
+        <article class="case"><span class="case-number">CASE 04</span><h3>Gestão financeira com auditoria automática</h3><dl><dt>Antes</dt><dd>Orçamento, notas e execução ficavam em arquivos separados.</dd><dt>Solução</dt><dd>Cruza orçamento e execução, identifica divergências, documentos sem correspondência e fornecedores novos, com validação humana para casos de baixa confiança e histórico das análises.</dd><dt>Resultado</dt><dd>O gestor não procura problemas em planilhas; o sistema mostra onde olhar.</dd></dl></article>
       </div>
-      <div class="campo">
-        <label for="empresa">Empresa</label>
-        <input id="empresa" name="empresa" type="text" placeholder="Nome da empresa" required>
+    </section>
+
+    <section class="wrap" id="calculadora">
+      <p class="eyebrow">Calculadora</p><h2>Quanto a repetição custa por ano?</h2><p>Faça uma estimativa simples. Você pode informar zero e usar decimais.</p>
+      <div class="calculator">
+        <div class="fields">
+          <div class="field"><label for="pessoas">Pessoas envolvidas</label><input id="pessoas" name="pessoas" type="text" inputmode="decimal" autocomplete="off" value="1" aria-describedby="calc-ajuda"></div>
+          <div class="field"><label for="custo-mensal">Custo médio mensal por pessoa (R$)</label><input id="custo-mensal" name="custoMensal" type="text" inputmode="decimal" autocomplete="off" value="3500"></div>
+          <div class="field"><label for="horas-semana">Horas por semana por pessoa</label><input id="horas-semana" name="horasSemana" type="text" inputmode="decimal" autocomplete="off" value="5"></div>
+          <p class="help" id="calc-ajuda">Estimativa informativa: 48 semanas por ano e 160 horas por mês.</p>
+        </div>
+        <div class="results" aria-live="polite">
+          <div class="result"><span>Horas consumidas por ano</span><strong id="horas-ano">240 h</strong></div>
+          <div class="result"><span>Custo anual estimado</span><strong id="custo-ano">R$ 5.250,00</strong></div>
+          <p class="formula">Fórmula: horas/ano = pessoas × horas/semana × 48; custo/hora = custo mensal ÷ 160; custo/ano = horas/ano × custo/hora.</p>
+          <a class="btn" href="#diagnostico" id="calc-cta">Analisar este processo</a>
+        </div>
       </div>
-      <div class="campo">
-        <label for="email">E-mail</label>
-        <input id="email" name="email" type="email" placeholder="voce@empresa.com.br" required>
+    </section>
+
+    <section class="wrap dark" id="como-funciona">
+      <p class="eyebrow">Como funciona</p><h2>Do diagnóstico à rotina funcionando.</h2>
+      <div class="steps"><article class="step"><b>01</b><h3>Entender</h3><p class="muted">Você mostra a tarefa, as ferramentas e os pontos de atrito.</p></article><article class="step"><b>02</b><h3>Desenhar</h3><p class="muted">Mapeamos o fluxo, os limites e onde a decisão humana permanece.</p></article><article class="step"><b>03</b><h3>Implementar</h3><p class="muted">Construímos, testamos e acompanhamos a automação no processo real.</p></article></div>
+    </section>
+
+    <section class="wrap"><p class="eyebrow">Áreas</p><h2>Automação onde a operação repete.</h2><div class="areas" aria-label="Áreas atendidas"><span>Financeiro</span><span>Administrativo</span><span>Comercial</span><span>Atendimento</span><span>Operações</span><span>Dados e relatórios</span></div></section>
+
+    <section class="wrap dark"><div class="human"><div><p class="eyebrow">Tecnologia com critério</p><h2>Automatizar não é tirar pessoas do processo.</h2></div><div class="human-note"><p>É tirar da equipe o que é repetitivo para que ela cuide das exceções, das relações e das decisões.</p><p class="muted">Antes de implementar, definimos o que pode acontecer sozinho, o que precisa de aprovação e como acompanhar cada etapa.</p></div></div></section>
+
+    <section class="wrap" id="diagnostico">
+      <div class="contact-grid">
+        <div><p class="eyebrow">Diagnóstico</p><h2>Qual tarefa ocupa sua equipe hoje?</h2><p>Compartilhe o processo. Vamos analisar as informações e responder pelo e-mail informado.</p><p class="help"><span class="required" aria-hidden="true">*</span> campos obrigatórios</p></div>
+        <div>
+          <form class="form" id="diagnostico-form" novalidate>
+            <div class="form-field"><label for="nome">Nome <span class="required" aria-hidden="true">*</span></label><input id="nome" name="nome" autocomplete="name" required maxlength="100"></div>
+            <div class="form-field"><label for="empresa">Empresa <span class="required" aria-hidden="true">*</span></label><input id="empresa" name="empresa" autocomplete="organization" required maxlength="120"></div>
+            <div class="form-field"><label for="email">E-mail <span class="required" aria-hidden="true">*</span></label><input id="email" name="email" type="email" autocomplete="email" required maxlength="254"></div>
+            <div class="form-field"><label for="telefone">Telefone (opcional)</label><input id="telefone" name="telefone" type="tel" autocomplete="tel" maxlength="30"></div>
+            <div class="form-field full"><label for="processo">Tarefa ou processo <span class="required" aria-hidden="true">*</span></label><textarea id="processo" name="processo" required minlength="10" maxlength="2000" placeholder="Conte o que é feito, por quem e com que frequência."></textarea></div>
+            <div class="form-field full"><label for="como-funciona-form">Como funciona hoje? (opcional)</label><textarea id="como-funciona-form" name="comoFunciona" maxlength="3000" placeholder="Ferramentas usadas, etapas, aprovações ou dificuldades."></textarea></div>
+            <div class="honeypot" aria-hidden="true"><label for="website">Não preencha este campo</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+            <label class="consent" for="consentimento"><input id="consentimento" name="consentimento" type="checkbox" required><span>Ao enviar este formulário, você concorda com o uso das informações fornecidas exclusivamente para análise e contato sobre sua solicitação.</span></label>
+            <div class="form-actions"><button class="btn" type="submit">Enviar para análise</button><span class="status" id="form-status" role="status" aria-live="polite"></span></div>
+          </form>
+          <div class="success" id="form-success" hidden tabindex="-1">Recebemos sua solicitação. Obrigado por compartilhar seu processo conosco. Vamos analisar as informações e entraremos em contato pelo e-mail informado.</div>
+        </div>
       </div>
-      <div class="campo">
-        <label for="tarefa">Qual tarefa repetitiva mais consome tempo aí?</label>
-        <textarea id="tarefa" name="tarefa" rows="3" placeholder="Ex.: todo dia alguém copia os pedidos do e-mail para a planilha de faturamento"></textarea>
-      </div>
-      <button type="submit" class="btn" style="margin-top:28px" data-hover><span>Enviar pelo WhatsApp</span><span class="seta">→</span></button>
-      <p class="recado" id="recado">Abrimos o WhatsApp com seu pedido escrito. É só apertar enviar.</p>
-    </form>
-  </div>
-</section>
+    </section>
 
-</main>
+    <section class="wrap" id="faq"><p class="eyebrow">FAQ</p><h2>Perguntas frequentes.</h2><div class="faq">
+      <details><summary>Minha empresa é pequena. Automação faz sentido?</summary><p>Sim. O tamanho da empresa importa menos que a frequência da tarefa e o tempo que ela consome. Processos simples e repetitivos também podem gerar ganhos relevantes.</p></details>
+      <details><summary>Preciso trocar os sistemas que já uso?</summary><p>Não necessariamente. Primeiro avaliamos as ferramentas atuais e as integrações possíveis; a automação pode conectar o que já existe.</p></details>
+      <details><summary>Vocês trabalham apenas com IA?</summary><p>Não. Usamos IA quando ela é adequada, junto com integrações, regras e automações tradicionais. A tecnologia é escolhida conforme o processo.</p></details>
+      <details><summary>Toda tarefa pode ser automatizada?</summary><p>Não. Tarefas com regras claras e repetição tendem a ser boas candidatas; decisões sensíveis, exceções e atividades que exigem julgamento podem permanecer humanas.</p></details>
+      <details><summary>Automação significa perder controle?</summary><p>Não. Aprovações, limites, registros e validação humana podem fazer parte do fluxo. <strong>Automação sem controle pode apenas executar erros mais rapidamente.</strong></p></details>
+      <details><summary>Como saber por onde começar?</summary><p>Comece pela tarefa frequente que mais consome tempo ou causa retrabalho — aquela que faz a equipe pensar: <strong>“Não é possível que ainda precisemos fazer isso manualmente.”</strong></p></details>
+    </div></section>
 
-<footer class="rodape">
-  <img class="rodape-logo" src="assets/logo-footer.png" alt="Braço Digital">
-  <div class="rodape-linha">
-    <span>Braço Digital · Automação de processos</span>
-    <span class="rodape-canais">
-      <a href="https://wa.me/5521988738405" target="_blank" rel="noopener" data-hover>
-        <svg class="ico ico-p" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-        (21) 98873-8405
-      </a>
-      <a href="https://instagram.com/braco.digital" target="_blank" rel="noopener" data-hover>
-        <svg class="ico ico-p" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm7.846-10.405a1.441 1.441 0 0 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg>
-        @braco.digital
-      </a>
-    </span>
-    <span>© 2026</span>
-  </div>
-  <div class="rodape-marca" id="marcaRodape">BRAÇO DIGITAL —</div>
-</footer>
+    <section class="wrap dark final"><p class="eyebrow" style="justify-content:center">Próximo passo</p><h2>Comece pela tarefa que mais se repete.</h2><a class="btn" href="#diagnostico">Analisar meu processo</a></section>
+  </main>
+  <footer class="footer"><img src="assets/logo-footer.png" alt="Braço Digital" width="240" height="120"><span>© <span id="ano"></span> Braço Digital. Automação de processos.</span></footer>
 
-<script>
-(function(){
-  var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  <script>
+    (() => {
+      'use strict';
+      const $ = (selector) => document.querySelector(selector);
+      const menuButton = $('.hamb');
+      menuButton.addEventListener('click', () => {
+        const open = document.body.classList.toggle('menu-open');
+        menuButton.setAttribute('aria-expanded', String(open));
+      });
+      document.querySelectorAll('.menu a').forEach((link) => link.addEventListener('click', () => {
+        document.body.classList.remove('menu-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+      }));
+      $('#ano').textContent = new Date().getFullYear();
 
-  /* ---------- entrada ---------- */
-  window.addEventListener('load', function(){ document.body.classList.add('carregado'); });
-  setTimeout(function(){ document.body.classList.add('carregado'); }, 400);
+      const calcInputs = { pessoas: $('#pessoas'), custoMensal: $('#custo-mensal'), horasSemana: $('#horas-semana') };
+      const storageKey = 'bracoDigitalCalculadora';
+      const parseDecimal = (value) => {
+        const clean = String(value ?? '').trim().replace(/\s/g, '').replace(',', '.');
+        const number = Number(clean);
+        return Number.isFinite(number) && number >= 0 ? number : 0;
+      };
+      const calculate = ({ pessoas, custoMensal, horasSemana }) => {
+        const horasAno = pessoas * horasSemana * 48;
+        const custoHora = custoMensal / 160;
+        return { horasAno, custoHora, custoAno: horasAno * custoHora };
+      };
+      const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+      const numberBR = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
+      let calculatorState = { pessoas: 0, custoMensal: 0, horasSemana: 0, horasAno: 0, custoHora: 0, custoAno: 0 };
+      const updateCalculator = () => {
+        const values = Object.fromEntries(Object.entries(calcInputs).map(([key, input]) => [key, parseDecimal(input.value)]));
+        calculatorState = { ...values, ...calculate(values) };
+        $('#horas-ano').textContent = `${numberBR.format(calculatorState.horasAno)} h`;
+        $('#custo-ano').textContent = brl.format(calculatorState.custoAno);
+        try { sessionStorage.setItem(storageKey, JSON.stringify(values)); } catch (_) { /* armazenamento pode estar indisponível */ }
+      };
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(storageKey));
+        if (saved && typeof saved === 'object') Object.entries(calcInputs).forEach(([key, input]) => { if (saved[key] !== undefined) input.value = saved[key]; });
+      } catch (_) { /* mantém valores padrão */ }
+      Object.values(calcInputs).forEach((input) => input.addEventListener('input', updateCalculator));
+      updateCalculator();
 
-  /* ---------- esteira ---------- */
-  var tarefas = ['Copiar pedidos do e-mail','Renomear arquivos','Lançar nota fiscal','Conferir boleto',
-    'Atualizar a planilha de controle','Montar o relatório da semana','Digitar o mesmo cadastro',
-    'Cobrar assinatura de documento','Baixar extrato e classificar','Responder "segue em anexo"'];
-  var ganhos = ['+3h por semana','+1 manhã de volta','Erro de digitação: 0','+2h por semana',
-    'Fechamento no prazo','+40h por mês','Relatório às 8h','Sem retrabalho','+1 dia por mês','Conferência automática'];
-
-  function preencher(id, itens, classe){
-    var alvo = document.getElementById(id);
-    if(!alvo) return;
-    itens.forEach(function(t){
-      var el = document.createElement('span');
-      el.className = 'chip' + (classe ? ' ' + classe : '');
-      el.textContent = t;
-      alvo.appendChild(el);
-    });
-  }
-  preencher('loteA', tarefas); preencher('loteB', tarefas);
-  preencher('loteC', ganhos, 'chip-tempo'); preencher('loteD', ganhos, 'chip-tempo');
-
-  /* ---------- nav ---------- */
-  var topo = document.getElementById('topo');
-  var hamb = document.getElementById('hamb');
-  hamb.addEventListener('click', function(){
-    var aberto = document.body.classList.toggle('aberto');
-    hamb.setAttribute('aria-expanded', aberto ? 'true' : 'false');
-    hamb.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
-  });
-  document.querySelectorAll('#menu a').forEach(function(a){
-    a.addEventListener('click', function(){
-      document.body.classList.remove('aberto');
-      hamb.setAttribute('aria-expanded','false');
-    });
-  });
-
-  /* ---------- revelar ---------- */
-  var obs = new IntersectionObserver(function(ents){
-    ents.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('vis'); obs.unobserve(e.target); } });
-  }, {threshold:.18, rootMargin:'0px 0px -8% 0px'});
-  document.querySelectorAll('.rev').forEach(function(el){ obs.observe(el); });
-
-  /* ---------- calculadora ---------- */
-  var pessoas = document.getElementById('pessoas'),
-      horas   = document.getElementById('horas'),
-      custo   = document.getElementById('custo');
-  var outP = document.getElementById('outPessoas'), outH = document.getElementById('outHoras'), outC = document.getElementById('outCusto');
-  var resH = document.getElementById('resHoras'), resR = document.getElementById('resReais'), resP = document.getElementById('resPessoas');
-  var nf = new Intl.NumberFormat('pt-BR');
-  var animacoes = {};
-
-  function anima(el, de, para, formata){
-    if(reduz){ el.textContent = formata(para); return; }
-    cancelAnimationFrame(animacoes[el.id]);
-    var ini = performance.now(), dur = 620;
-    function passo(t){
-      var k = Math.min(1, (t - ini) / dur);
-      k = 1 - Math.pow(1 - k, 3);
-      el.textContent = formata(de + (para - de) * k);
-      if(k < 1) animacoes[el.id] = requestAnimationFrame(passo);
-    }
-    animacoes[el.id] = requestAnimationFrame(passo);
-  }
-
-  var ant = {h:0, r:0, p:0};
-  function calcula(){
-    var p = +pessoas.value, h = +horas.value, c = +custo.value;
-    outP.textContent = p;
-    outH.textContent = h + 'h';
-    outC.textContent = 'R$ ' + c;
-
-    var horasAno = p * h * 48;
-    var reaisAno = horasAno * c;
-    var equiv = horasAno / 1760;
-
-    anima(resH, ant.h, horasAno, function(v){ return nf.format(Math.round(v)); });
-    anima(resR, ant.r, reaisAno, function(v){ return 'R$ ' + nf.format(Math.round(v)); });
-    anima(resP, ant.p, equiv, function(v){ return v.toFixed(1).replace('.', ','); });
-
-    ant = {h:horasAno, r:reaisAno, p:equiv};
-  }
-  [pessoas, horas, custo].forEach(function(el){ el.addEventListener('input', calcula); });
-  calcula();
-
-  /* ---------- processo fixado ---------- */
-  var alvo = document.getElementById('alvo');
-  var palcos = document.querySelectorAll('.palco');
-  var barras = document.querySelectorAll('#trilha i');
-  var ativo = -1;
-
-  function processo(){
-    if(!alvo) return;
-    var r = alvo.getBoundingClientRect();
-    var total = r.height - window.innerHeight;
-    if(total <= 0) return;
-    var prog = Math.min(1, Math.max(0, -r.top / total));
-    var n = palcos.length;
-
-    for(var i=0;i<n;i++){
-      var local = Math.min(1, Math.max(0, prog * n - i));
-      barras[i].style.setProperty('--p', local);
-    }
-    var idx = Math.min(n - 1, Math.floor(prog * n));
-    if(idx !== ativo){
-      palcos.forEach(function(p, i){ p.classList.toggle('ativo', i === idx); });
-      ativo = idx;
-    }
-  }
-
-  /* ---------- parallax das marcas ---------- */
-  var marcaFundo = document.getElementById('marcaFundo');
-  var marcaRodape = document.getElementById('marcaRodape');
-  function deriva(el, forca){
-    if(!el || reduz) return;
-    var r = el.getBoundingClientRect();
-    if(r.bottom < -200 || r.top > window.innerHeight + 200) return;
-    var k = (window.innerHeight - r.top) / (window.innerHeight + r.height);
-    el.style.transform = 'translateX(' + ((0.5 - k) * forca) + 'px)';
-  }
-
-  var tick = false;
-  function aoRolar(){
-    topo.classList.toggle('colado', window.scrollY > 60);
-    processo();
-    deriva(marcaFundo, 220);
-    deriva(marcaRodape, 160);
-    tick = false;
-  }
-  window.addEventListener('scroll', function(){
-    if(!tick){ tick = true; requestAnimationFrame(aoRolar); }
-  }, {passive:true});
-  window.addEventListener('resize', aoRolar);
-  aoRolar();
-
-  /* ---------- cursor ---------- */
-  var cursor = document.getElementById('cursor');
-  if(window.matchMedia('(pointer: fine)').matches && !reduz){
-    var cx = 0, cy = 0, mx = 0, my = 0, vivo = false;
-    window.addEventListener('mousemove', function(e){
-      mx = e.clientX; my = e.clientY;
-      if(!vivo){ vivo = true; cx = mx; cy = my; cursor.classList.add('on'); loop(); }
-    });
-    function loop(){
-      cx += (mx - cx) * .18; cy += (my - cy) * .18;
-      cursor.style.left = cx + 'px'; cursor.style.top = cy + 'px';
-      requestAnimationFrame(loop);
-    }
-    document.querySelectorAll('[data-hover], a, button').forEach(function(el){
-      el.addEventListener('mouseenter', function(){ cursor.classList.add('grande'); });
-      el.addEventListener('mouseleave', function(){ cursor.classList.remove('grande'); });
-    });
-  }
-
-  /* ---------- formulario -> WhatsApp ---------- */
-  var form = document.getElementById('form');
-  var ZAP = '5521988738405';
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    var recado = document.getElementById('recado');
-    var v = function(id){ return document.getElementById(id).value.trim(); };
-
-    if(!v('nome') || !v('empresa') || !v('email')){
-      recado.textContent = 'Faltou preencher nome, empresa ou e-mail.';
-      recado.style.color = '#A63A4E';
-      recado.classList.add('vis');
-      return;
-    }
-
-    var msg = 'Olá! Quero um diagnóstico da Braço Digital.\n\n'
-            + 'Nome: ' + v('nome') + '\n'
-            + 'Empresa: ' + v('empresa') + '\n'
-            + 'E-mail: ' + v('email') + '\n'
-            + 'Tarefa que mais consome tempo: ' + (v('tarefa') || '(vou contar na conversa)');
-
-    window.open('https://wa.me/' + ZAP + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
-
-    recado.textContent = 'Abrimos o WhatsApp com seu pedido escrito. É só apertar enviar.';
-    recado.style.color = 'var(--sinal)';
-    recado.classList.add('vis');
-  });
-})();
-</script>
+      const form = $('#diagnostico-form');
+      const status = $('#form-status');
+      const button = form.querySelector('button[type="submit"]');
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        status.textContent = '';
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        button.disabled = true;
+        button.textContent = 'Enviando…';
+        const data = Object.fromEntries(new FormData(form).entries());
+        data.calculadora = calculatorState;
+        try {
+          const response = await fetch('/api/diagnostico', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) });
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(result.error || 'Não foi possível enviar agora. Tente novamente.');
+          form.hidden = true;
+          const success = $('#form-success');
+          success.hidden = false;
+          success.focus();
+          try { window.dataLayer?.push({ event: 'diagnostico_enviado' }); } catch (_) { /* analytics nunca bloqueia o envio */ }
+        } catch (error) {
+          status.textContent = error.message || 'Não foi possível enviar agora. Tente novamente.';
+          button.disabled = false;
+          button.textContent = 'Enviar para análise';
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
