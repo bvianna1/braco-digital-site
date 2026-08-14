@@ -153,7 +153,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_OPTIONS(self) -> None:  # noqa: N802
         origin = self.headers.get("Origin", "").rstrip("/")
-        if self.path != "/api/diagnostico" or origin not in self.allowed_origins:
+        if self.path != "/diagnostico" or origin not in self.allowed_origins:
             self.send_json(403, {"error": "Origem não permitida."})
             return
         self.send_response(204)
@@ -166,7 +166,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:  # noqa: N802
         origin = self.headers.get("Origin", "").rstrip("/")
-        if self.path != "/api/diagnostico":
+        if self.path != "/diagnostico":
             self.send_json(404, {"error": "Não encontrado."}, origin)
             return
         if origin not in self.allowed_origins:
