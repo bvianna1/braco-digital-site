@@ -6,10 +6,9 @@ from __future__ import annotations
 import json
 import os
 import re
+import subprocess
 import threading
 import time
-import urllib.error
-import urllib.request
 from collections import defaultdict, deque
 from email.utils import parseaddr
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -94,6 +93,33 @@ def email_payload(data: dict, to_email: str, from_email: str) -> dict:
         "subject": f"Diagnóstico de processo — {data['empresa']}",
         "text": body,
     }
+
+
+def send_email(payload: dict, api_key: str) -> bool:
+    """Envia o e-mail via Resend usando curl.
+
+    O Resend bloqueia urllib.request/Python com Cloudflare 403 (error code
+    1010), então a chamada é feita por curl via subprocess.
+    """
+    cmd = [
+        "curl", "--silent", "--show-error", "--fail-with-body",
+        "--max-time", "15",
+        "https://api.resend.com/emails",
+        "--request", "POST",
+        "--header", f"Authorization: Bearer {api_key}",
+        "--header", "Content-Type: application/json",
+        "--data-binary", "@-",
+    ]
+    try:
+        proc = subprocess.run(
+            cmd,
+            input=json.dumps(payload).encode("utf-8"),
+            capture_output=True,
+            check=False,
+        )
+        return proc.returncode == 0
+    except (subprocess.SubprocessError, OSError):
+        return False
 
 
 class RateLimiter:
@@ -201,18 +227,10 @@ class Handler(BaseHTTPRequestHandler):
             print("contact_api configuration_error", flush=True)
             self.send_json(503, {"error": "Serviço temporariamente indisponível."}, origin)
             return
-        request = urllib.request.Request(
-            "https://api.resend.com/emails",
-            data=json.dumps(email_payload(data, to_email, from_email)).encode("utf-8"),
-            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-            method="POST",
-        )
-        try:
-            with urllib.request.urlopen(request, timeout=10) as response:
-                if response.status not in (200, 201):
-                    raise RuntimeError("Unexpected Resend response")
-                response.read()
-        except (urllib.error.URLError, TimeoutError, RuntimeError):
+        # curl via subprocess: o Resend bloqueia urllib.request/Python com
+        # Cloudflare 403 (error code 1010). Usar curl mantém a entrega estável.
+        payload = email_payload(data, to_email, from_email)
+        if not send_email(payload, api_key):
             print("contact_api delivery_error", flush=True)
             self.send_json(502, {"error": "Não foi possível enviar agora. Tente novamente."}, origin)
             return

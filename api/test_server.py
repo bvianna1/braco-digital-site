@@ -50,39 +50,41 @@ class ContactApiTests(unittest.TestCase):
         self.assertIsNone(error)
         self.assertEqual(data["empresa"], "Empresa Assunto injetado")
 
-    def test_resend_request_shape_without_network(self):
+    @patch("server.subprocess.run")
+    def test_resend_request_shape_without_network(self, run):
         data, _ = server.validate(self.valid_payload())
         message = server.email_payload(data, "lead@example.com", "Site <site@example.com>")
-        request = server.urllib.request.Request(
-            "https://api.resend.com/emails",
-            data=json.dumps(message).encode(),
-            headers={"Authorization": "Bearer test", "Content-Type": "application/json"},
-            method="POST",
-        )
-        self.assertEqual(request.full_url, "https://api.resend.com/emails")
-        self.assertNotIn("Bruno", str(request.headers))
+        run.return_value.returncode = 0
+        ok = server.send_email(message, "test")
+        self.assertTrue(ok)
+        cmd = run.call_args.args[0]
+        self.assertIn("https://api.resend.com/emails", cmd)
+        self.assertIn("--header", cmd)
+        self.assertIn("Authorization: Bearer test", cmd)
+        sent = run.call_args.kwargs["input"]
+        self.assertIn(b"lead@example.com", sent)
+        # o nome do lead não deve vazar no header de autorização
+        auth_header = next(a for a in cmd if a.startswith("Authorization:"))
+        self.assertNotIn("Bruno", auth_header)
 
-    @patch("server.urllib.request.urlopen")
-    def test_resend_https_delivery_is_mocked(self, urlopen):
-        class Response:
-            status = 200
-            def __enter__(self): return self
-            def __exit__(self, *_args): return None
-            def read(self): return b'{"id":"mock"}'
-
-        urlopen.return_value = Response()
+    @patch("server.subprocess.run")
+    def test_resend_https_delivery_is_mocked(self, run):
+        run.return_value.returncode = 0
         data, _ = server.validate(self.valid_payload())
-        request = server.urllib.request.Request(
-            "https://api.resend.com/emails",
-            data=json.dumps(server.email_payload(data, "lead@example.com", "Site <site@example.com>")).encode(),
-            headers={"Authorization": "Bearer test", "Content-Type": "application/json"},
-            method="POST",
-        )
-        with urlopen(request, timeout=10) as response:
-            self.assertEqual(response.status, 200)
-        sent_request = urlopen.call_args.args[0]
-        self.assertEqual(sent_request.get_method(), "POST")
-        self.assertEqual(sent_request.full_url, "https://api.resend.com/emails")
+        message = server.email_payload(data, "lead@example.com", "Site <site@example.com>")
+        ok = server.send_email(message, "test")
+        self.assertTrue(ok)
+        self.assertEqual(run.call_count, 1)
+        sent = run.call_args.kwargs["input"]
+        self.assertEqual(json.loads(sent)["to"], ["lead@example.com"])
+        self.assertFalse(run.call_args.kwargs["check"])
+
+    @patch("server.subprocess.run")
+    def test_resend_delivery_failure_returns_false(self, run):
+        run.return_value.returncode = 22  # curl error code for HTTP >= 400
+        data, _ = server.validate(self.valid_payload())
+        message = server.email_payload(data, "lead@example.com", "Site <site@example.com>")
+        self.assertFalse(server.send_email(message, "test"))
 
 
 if __name__ == "__main__":
