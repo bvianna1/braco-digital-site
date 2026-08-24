@@ -76,3 +76,4 @@ git diff --check
 ```
 
 Nenhum passo deste README publica, faz push ou merge.
+<!-- deploy-watcher test 2026-08-24 -->
