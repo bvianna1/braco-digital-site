@@ -43,6 +43,7 @@ O site chama `/api/diagnostico` no mesmo domínio. Para testar os dois juntos lo
 | `CONTACT_FORM_ALLOWED_ORIGINS` | não | Lista separada por vírgulas. Padrão: domínio com e sem `www`. |
 | `PORT` | não | Porta HTTP da API. Padrão: `8080`. |
 | `HOST` | não | Interface da API. Padrão: `0.0.0.0`. |
+| `RATE_LIMIT_FILE` | não | Arquivo JSON de persistência do rate limit. Padrão: `/app/data/rate_limit.json`. |
 
 Não use um e-mail arbitrário em `CONTACT_FORM_FROM_EMAIL`: o domínio precisa estar autorizado no Resend. O e-mail preenchido pelo visitante é aplicado apenas como `Reply-To`.
 
@@ -57,7 +58,7 @@ O repositório entrega duas imagens independentes e **não contém a configuraç
 5. preserve todos os demais caminhos no serviço Nginx estático;
 6. confirme que o proxy preserva o cabeçalho `Origin` e limita o corpo da requisição a 16 KB ou menos.
 
-Como o rate limiting é simples e em memória, ele reinicia junto com o contêiner e funciona por instância. Em múltiplas réplicas, configure também limite no proxy. A API usa o IP da conexão com o proxy; não confia automaticamente em `X-Forwarded-For`, evitando spoofing. Para limite por visitante atrás do proxy, faça o rate limiting no próprio Dokploy/Traefik.
+O rate limit é fixo (5 requisições por IP de conexão em 10 minutos) e é **persistido em arquivo no container** (`RATE_LIMIT_FILE`, default `/app/data/rate_limit.json`), sobrevivendo ao restart da instância única. A API usa o IP da conexão com o proxy; não confia automaticamente em `X-Forwarded-For`, evitando spoofing. Em múltiplas réplicas reais (não é o caso atual: 1 instância), configure também limite no proxy/Dokploy/Traefik, pois cada instância teria seu próprio contador.
 
 ## Segurança e dados
 
