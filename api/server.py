@@ -7,15 +7,23 @@ import json
 import os
 import re
 import subprocess
+import tempfile
 import threading
 import time
 from collections import defaultdict, deque
+from contextlib import contextmanager
 from email.utils import parseaddr
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+try:
+    import fcntl
+except ImportError:  # pragma: no cover - fcntl is unavailable on Windows
+    fcntl = None
 
 MAX_BODY_BYTES = 16_384
 RATE_LIMIT_REQUESTS = 5
 RATE_LIMIT_WINDOW_SECONDS = 600
+RATE_LIMIT_STATE_FILE = "/var/lib/braco-digital-api/rate-limit.json"
 FIELD_LIMITS = {
     "nome": 100,
     "empresa": 120,
@@ -124,18 +132,96 @@ def send_email(payload: dict, api_key: str) -> bool:
 
 class RateLimiter:
     def __init__(self) -> None:
+        self.state_file = os.environ.get("RATE_LIMIT_STATE_FILE", RATE_LIMIT_STATE_FILE)
         self.requests: dict[str, deque[float]] = defaultdict(deque)
         self.lock = threading.Lock()
+        self._state_dirty = False
+        with self.lock, self._file_lock():
+            self._load_state(time.time())
+
+    @contextmanager
+    def _file_lock(self):
+        """1 réplica Dokploy; lock de arquivo protege contra processos concorrentes."""
+        lock_file = None
+        try:
+            if fcntl is not None:
+                lock_file = open(f"{self.state_file}.lock", "a+", encoding="utf-8")
+                fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+        except OSError:
+            print("contact_api rate_limit_lock_error", flush=True)
+        try:
+            yield
+        finally:
+            if lock_file is not None:
+                try:
+                    fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
+                finally:
+                    lock_file.close()
+
+    def _load_state(self, now: float) -> None:
+        try:
+            with open(self.state_file, encoding="utf-8") as state_file:
+                state = json.load(state_file)
+            clients = state["clients"]
+            if not isinstance(clients, dict):
+                raise ValueError("invalid clients")
+            loaded: dict[str, deque[float]] = defaultdict(deque)
+            cutoff = now - RATE_LIMIT_WINDOW_SECONDS
+            for client, timestamps in clients.items():
+                if not isinstance(client, str) or not isinstance(timestamps, list):
+                    raise ValueError("invalid bucket")
+                loaded[client].extend(sorted(
+                    timestamp for timestamp in timestamps
+                    if isinstance(timestamp, (int, float))
+                    and not isinstance(timestamp, bool)
+                    and cutoff < timestamp <= now
+                ))
+            self.requests = loaded
+        except FileNotFoundError:
+            print("contact_api rate_limit_state_missing", flush=True)
+        except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
+            self.requests = defaultdict(deque)
+            print("contact_api rate_limit_state_invalid", flush=True)
+
+    def _save_state(self, now: float) -> bool:
+        directory = os.path.dirname(self.state_file) or "."
+        temporary_path = None
+        state = {
+            "clients": {client: list(bucket) for client, bucket in self.requests.items() if bucket},
+            "saved_at": now,
+        }
+        try:
+            with tempfile.NamedTemporaryFile(
+                mode="w", encoding="utf-8", dir=directory, delete=False
+            ) as temporary:
+                temporary_path = temporary.name
+                json.dump(state, temporary, separators=(",", ":"))
+                temporary.flush()
+                os.fsync(temporary.fileno())
+            os.replace(temporary_path, self.state_file)
+            return True
+        except OSError:
+            print("contact_api rate_limit_state_write_error", flush=True)
+            return False
+        finally:
+            if temporary_path and os.path.exists(temporary_path):
+                try:
+                    os.unlink(temporary_path)
+                except OSError:
+                    pass
 
     def allow(self, client: str) -> bool:
-        now = time.monotonic()
-        with self.lock:
+        now = time.time()
+        with self.lock, self._file_lock():
+            if not self._state_dirty:
+                self._load_state(now)
             bucket = self.requests[client]
             while bucket and bucket[0] <= now - RATE_LIMIT_WINDOW_SECONDS:
                 bucket.popleft()
             if len(bucket) >= RATE_LIMIT_REQUESTS:
                 return False
             bucket.append(now)
+            self._state_dirty = not self._save_state(now)
             return True
 
 
