@@ -1,0 +1,20 @@
+version: 0.1
+policy: bracodigital-site-security-policy
+owner: braco-digital
+description: Política mínima de segurança para bracodigital.com.br (site estático + API).
+
+gates:
+  - id: https
+    name: HTTPS obrigatório
+    description: Produção serve exclusivamente via HTTPS.
+    enforced: true
+  - id: security-headers
+    name: Headers de segurança
+    description: HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy e CSP presentes nas respostas.
+    enforced: true
+  - id: no-secrets
+    name: Sem segredos no repositório
+    description: Nenhum token, chave ou credencial versionado.
+    enforced: true
+
+overrides: []
