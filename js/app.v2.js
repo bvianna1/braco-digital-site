@@ -11,7 +11,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('a[href*="wa.me"]').forEach(function (link) {
       link.addEventListener('click', function () {
-        gtag('event', 'click_whatsapp', { link_url: link.href });
+        const section = link.closest('section') || link.closest('footer') || link.closest('main');
+        gtag('event', 'whatsapp_click', { location: section ? section.id || section.tagName.toLowerCase() : 'unknown' });
       });
     });
   });
@@ -55,6 +56,19 @@
   const numberBR = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
   let calculatorState = { pessoas: 0, custoMensal: 0, horasSemana: 0, horasAno: 0, custoHora: 0, custoAno: 0 };
 
+  // Tarefa 4.1 — link pré-preenchido para o WhatsApp
+  const waBase = 'https://wa.me/5521988738405';
+  const buildWaLink = () => {
+    const s = calculatorState;
+    let msg = 'Olá, Bruno. Vi o site da Braço Digital e quero analisar um processo da minha operação.';
+    if (s.custoAno > 0) {
+      msg += ` Pela calculadora, estimei ${numberBR.format(s.horasAno)} h/ano e ${brl.format(s.custoAno)} por ano em tarefa repetitiva (${s.pessoas} pessoa(s), ${s.horasSemana} h/semana).`;
+    }
+    return `${waBase}?text=${encodeURIComponent(msg)}`;
+  };
+  const refreshWaLinks = () => document.querySelectorAll('a[href*="wa.me"]').forEach((a) => { a.href = buildWaLink(); });
+  refreshWaLinks();
+
   if (calcInputs.pessoas && calcInputs.custoMensal && calcInputs.horasSemana) {
     const updateCalculator = () => {
       const values = Object.fromEntries(Object.entries(calcInputs).map(([key, input]) => [key, parseDecimal(input.value)]));
@@ -63,6 +77,7 @@
       const custoAno = $('#custo-ano');
       if (horasAno) horasAno.textContent = `${numberBR.format(calculatorState.horasAno)} h`;
       if (custoAno) custoAno.textContent = brl.format(calculatorState.custoAno);
+      refreshWaLinks();
       try { sessionStorage.setItem(storageKey, JSON.stringify(values)); } catch (_) { /* armazenamento pode estar indisponível */ }
     };
     try {
