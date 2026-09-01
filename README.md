@@ -58,7 +58,18 @@ O repositório entrega duas imagens independentes e **não contém a configuraç
 5. preserve todos os demais caminhos no serviço Nginx estático;
 6. confirme que o proxy preserva o cabeçalho `Origin` e limita o corpo da requisição a 16 KB ou menos.
 
-O rate limit é fixo (5 requisições por IP de conexão em 10 minutos) e é **persistido em arquivo no container** (`RATE_LIMIT_STATE_FILE`, default `/var/lib/braco-digital-api/rate-limit.json`), sobrevivendo ao restart da instância única. A API usa o IP da conexão com o proxy; não confia automaticamente em `X-Forwarded-For`, evitando spoofing. Em múltiplas réplicas reais (não é o caso atual: 1 instância), configure também limite no proxy/Dokploy/Traefik, pois cada instância teria seu próprio contador.
+O rate limit é fixo (5 requisições por IP de conexão em 10 minutos) e é **persistido em arquivo** (`RATE_LIMIT_STATE_FILE`, default `/var/lib/braco-digital-api/rate-limit.json`), sobrevivendo ao restart da instância única. A API usa o IP da conexão com o proxy; não confia automaticamente em `X-Forwarded-For`, evitando spoofing. Em múltiplas réplicas reais (não é o caso atual: 1 instância), configure também limite no proxy/Dokploy/Traefik, pois cada instância teria seu próprio contador.
+
+### Volume persistente do rate limit (runbook Dokploy)
+
+A imagem da API (`api/Dockerfile`) declara `VOLUME /var/lib/braco-digital-api` e já cria esse diretório com dono `app:app` antes de trocar para `USER app`. Isso garante que o arquivo de estado exista e seja gravável pela conta não-root dentro do container. Para a persistência **sobreviver a um redeploy** (novo container), o volume precisa ser montado explicitamente no Dokploy — sem montagem, cada container novo começa com estado zerado.
+
+Configure no serviço da API no Dokploy (aba de volumes):
+
+- **Volume nomeado (recomendado):** crie um volume nomeado e monte-o em `/var/lib/braco-digital-api`. O Docker inicializa um volume nomeado novo copiando o conteúdo e o dono do diretório da imagem (`app:app`), então não é preciso ajustar permissão manualmente. Use o mesmo volume nomeado em todo redeploy.
+- **Bind mount (alternativa):** monte um diretório do host em `/var/lib/braco-digital-api`. Nesse caso o dono e a permissão vêm do host, não da imagem — o diretório do host precisa ser gravável pelo UID da conta `app` do container. Descubra o UID com `docker run --rm <imagem-da-api> id -u app` e ajuste com `chown -R <esse-uid> /caminho/host/braco-digital-api` (ex.: `chown -R 100:100`).
+
+Em ambos os casos, não altere `RATE_LIMIT_STATE_FILE` (mantenha o default) e não armazene segredos nesse volume — ele contém apenas o contador do rate limit. Verificação: após o deploy, `GET /healthz` deve responder e o arquivo `rate-limit.json` deve aparecer no volume após o primeiro POST.
 
 ## Segurança e dados
 
