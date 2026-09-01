@@ -10,15 +10,6 @@
   gtag('js', new Date());
   gtag('config', 'G-P51CNDWHR2');
 </script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('a[href*="wa.me"]').forEach(function (link) {
-      link.addEventListener('click', function () {
-        gtag('event','click_whatsapp',{link_url: link.href});
-      });
-    });
-  });
-</script>
   <title>Braço Digital — automação de processos</title>
   <meta name="description" content="Automação de processos para empresas ganharem controle e tempo para decidir. Mapeamos rotinas operacionais e criamos automações sob medida, com acompanhamento humano onde importa.">
   <meta property="og:type" content="website">
@@ -73,34 +64,7 @@
     ]
   }
   </script>
-  <style>
-    :root{--gelo:#e7ebed;--papel:#f1f4f5;--tinta:#12181d;--tinta2:#1b232a;--grafite:#65727c;--sinal:#9fd0e3;--fiorde:#2c5f7c;--alerta:#a63a4e;--display:'Archivo',system-ui,sans-serif;--corpo:'Inter',system-ui,sans-serif;--mono:'Space Mono',monospace;--mx:clamp(20px,5vw,88px);--borda:1px solid rgba(18,24,29,.15);--ease:cubic-bezier(.16,1,.3,1)}
-    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:82px}body{margin:0;background:var(--gelo);color:var(--tinta);font:17px/1.58 var(--corpo);overflow-x:hidden}img{display:block;max-width:100%}a{color:inherit}:focus-visible{outline:3px solid var(--sinal);outline-offset:3px}::selection{background:var(--sinal)}
-    .skip-link{position:absolute;left:-9999px;top:0;z-index:99;background:var(--tinta);color:#fff;padding:10px 16px;font:700 .8rem var(--mono)}
-    .skip-link:focus{left:0}
-    h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--display);font-variation-settings:'wdth' 112,'wght' 800;letter-spacing:-.04em;line-height:.96;text-wrap:balance}h1{font-size:clamp(2.3rem,6vw,5.2rem);max-width:15ch}h2{font-size:clamp(2.05rem,5vw,4.3rem);max-width:17ch}h3{font-size:clamp(1.25rem,2vw,1.65rem);font-variation-settings:'wdth' 100,'wght' 700}.wrap{padding:clamp(76px,10vw,138px) var(--mx)}.dark{background:var(--tinta);color:#fff}.muted{color:var(--grafite)}.dark .muted{color:rgba(255,255,255,.65)}.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:22px;color:var(--grafite);font:700 .72rem/1 var(--mono);letter-spacing:.18em;text-transform:uppercase}.eyebrow:before{content:'';width:34px;height:2px;background:var(--fiorde)}.dark .eyebrow{color:rgba(255,255,255,.55)}.dark .eyebrow:before{background:var(--sinal)}
-    .nav{position:fixed;z-index:20;inset:0 0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px var(--mx);background:#12181d;border-bottom:1px solid rgba(255,255,255,.13)}.brand{display:flex;align-items:center;gap:12px}.brand img{height:36px;width:auto}.menu{display:flex;align-items:center;gap:clamp(14px,2.5vw,30px)}.menu a{color:rgba(255,255,255,.78);font:.75rem var(--mono);text-decoration:none}.menu .menu-cta{padding:11px 14px;color:var(--tinta);background:var(--sinal);font-weight:700}.hamb{display:none;padding:10px;background:none;color:#fff;border:1px solid rgba(255,255,255,.3);font:700 .75rem var(--mono)}
-    .hero{min-height:100svh;display:flex;align-items:flex-end;position:relative;overflow:hidden;padding-top:110px}.hero:before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(circle at 60% 35%,#000,transparent 72%)}.hero-inner{position:relative;width:100%;padding:70px var(--mx)}.hero h1{margin-bottom:30px}.hero-lead{max-width:680px;font-size:clamp(1.15rem,2vw,1.55rem);color:var(--sinal);font-weight:600}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:14px 22px;border:1px solid var(--sinal);background:var(--sinal);color:var(--tinta);font:700 .76rem var(--mono);letter-spacing:.05em;text-decoration:none;text-transform:uppercase;cursor:pointer}.btn.secondary{background:transparent;color:#fff;border-color:rgba(255,255,255,.42)}.btn:hover{filter:brightness(1.06);transform:translateY(-1px)}
-    .intro{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,7vw,110px)}.task-list{display:grid;grid-template-columns:repeat(2,1fr);border-top:var(--borda)}.task{padding:22px 16px 22px 0;border-bottom:var(--borda)}.task span{display:block;margin-bottom:9px;color:var(--fiorde);font:700 .72rem var(--mono)}
-    .cases-head{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:48px}.cases-head p{max-width:42ch}.cases{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.case{padding:clamp(24px,4vw,40px);background:var(--tinta2);border-top:5px solid var(--sinal)}.case-number{color:var(--sinal);font:700 .72rem var(--mono)}.case h3{margin:18px 0 28px}.case dl{margin:0}.case dt{margin-top:17px;color:var(--sinal);font:700 .68rem var(--mono);letter-spacing:.12em;text-transform:uppercase}.case dd{margin:5px 0 0;color:rgba(255,255,255,.72)}
-    .calculator{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,6vw,80px);margin-top:45px}.fields{display:grid;gap:20px}.field label,.form-field label{display:block;margin-bottom:8px;font:700 .72rem var(--mono);letter-spacing:.04em}.field input,.form-field input,.form-field textarea{width:100%;min-height:50px;padding:12px;border:1px solid rgba(18,24,29,.28);border-radius:0;background:var(--papel);color:var(--tinta);font:1rem var(--corpo)}.form-field textarea{min-height:126px;resize:vertical}.help{margin:8px 0 0;color:var(--grafite);font-size:.8rem}.results{padding:clamp(28px,5vw,48px);background:var(--tinta);color:#fff;border-top:6px solid var(--sinal)}.result{padding:17px 0;border-bottom:1px solid rgba(255,255,255,.15)}.result span{display:block;color:rgba(255,255,255,.57);font:.7rem var(--mono);text-transform:uppercase}.result strong{display:block;margin-top:7px;color:var(--sinal);font:800 clamp(2rem,5vw,4rem)/1 var(--display)}.formula{margin:22px 0 0;color:rgba(255,255,255,.55);font-size:.75rem}
-    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:45px;background:rgba(255,255,255,.16)}.step{padding:clamp(24px,4vw,42px);background:var(--tinta)}.step b{color:var(--sinal);font:700 .75rem var(--mono)}.step h3{margin-top:35px}.areas{display:flex;flex-wrap:wrap;gap:10px;margin-top:38px}.areas span{padding:12px 16px;border:var(--borda);background:var(--papel);font:700 .76rem var(--mono)}
-    .human{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,7vw,100px);align-items:center}.human-note{padding:clamp(26px,4vw,44px);border-left:5px solid var(--sinal);background:var(--tinta2)}.human-note p:last-child{margin-bottom:0}
-    .contact-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(34px,7vw,100px)}.form{display:grid;grid-template-columns:1fr 1fr;gap:19px}.form-field.full{grid-column:1/-1}.required{color:var(--alerta)}.honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}.consent{grid-column:1/-1;display:flex;gap:10px;align-items:flex-start;font-size:.82rem;color:var(--grafite)}.consent input{width:18px;height:18px;flex:none;margin-top:2px}.form-actions{grid-column:1/-1;display:flex;align-items:center;gap:18px;flex-wrap:wrap}.status{font-size:.9rem}.status[aria-live]{min-height:1.5em}.success{padding:24px;background:#dcebee;border-left:5px solid var(--fiorde)}
-    .faq{max-width:900px;margin-top:40px}.faq details{border-top:var(--borda);padding:20px 0}.faq details:last-child{border-bottom:var(--borda)}.faq summary{cursor:pointer;font:700 1rem var(--mono)}.faq details p{margin:14px 0 0;max-width:70ch;color:var(--grafite)}.final{text-align:center}.final h2{margin-inline:auto}
-    @media(max-width:850px){.hamb{display:block}.menu{position:absolute;top:100%;left:0;right:0;display:none;flex-direction:column;align-items:stretch;padding:16px var(--mx) 24px;background:var(--tinta)}body.menu-open .menu{display:flex}.menu a{padding:10px}.intro,.human,.contact-grid{grid-template-columns:1fr}.cases,.calculator{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.cases-head{display:block}.form{grid-template-columns:1fr}.form-field.full,.consent,.form-actions{grid-column:1}.task-list{grid-template-columns:1fr}}
-    @media(max-width:480px){body{font-size:16px}.actions,.actions .btn,.form-actions,.form-actions .btn{width:100%}.hero-inner{padding-bottom:48px}.case{padding:24px}.result strong{overflow-wrap:anywhere}}
-    /* --- novo lote P0/P1/P2 --- */
-    .hero-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:640px;margin-top:38px}.hero-card{padding:24px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);border-radius:6px}.hero-card h3{margin-bottom:10px;font-size:1rem}.hero-card p{margin:0;color:rgba(255,255,255,.72);font-size:.9rem}.hero-card.antes{border-left:3px solid var(--grafite)}.hero-card.depois{border-left:3px solid var(--sinal)}.hero-card .tag{display:block;font:700 .68rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--grafite);margin-bottom:8px}.hero-card.depois .tag{color:var(--sinal)}
-    .case-ctx{color:rgba(255,255,255,.55);font-size:.72rem;font-family:var(--mono);margin-top:6px}
-    #sobre .sobre-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,7vw,90px);align-items:start}#sobre p{color:var(--grafite);font-size:1.02rem;margin-bottom:16px}#sobre h2{margin-bottom:20px}
-    .area-link{display:inline-block;padding:12px 16px;border:var(--borda);background:var(--papel);font:700 .76rem var(--mono);text-decoration:none;color:var(--tinta)}.area-link:hover{background:var(--sinal);color:var(--tinta)}.areas span.area-link{padding:12px 16px;border:var(--borda);background:var(--papel);font:700 .76rem var(--mono)}
-    .wa-link{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font:700 .82rem var(--mono);color:var(--fiorde);text-decoration:none}.wa-link:hover{color:var(--sinal)}
-    .footer{padding:clamp(54px,7vw,88px) var(--mx) 0;background:var(--tinta);color:var(--gelo);border-top:1px solid rgba(159,208,227,.2)}.footer-grid{display:grid;grid-template-columns:1.35fr .8fr .8fr 1.35fr;gap:clamp(34px,5vw,76px);padding-bottom:clamp(46px,6vw,72px)}.footer-column{min-width:0}.footer-column h2{margin:0 0 22px;color:var(--sinal);font:700 .7rem/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}.footer-brand img{width:min(200px,100%);height:auto;margin-bottom:20px}.footer-brand p{max-width:36ch;margin:0;color:rgba(231,235,237,.65);font-size:.86rem}.footer-links,.footer-contacts{display:grid;gap:13px}.footer a{width:fit-content;color:rgba(231,235,237,.82);text-decoration:none}.footer a:hover{color:var(--sinal)}.footer-links a{font:500 .9rem var(--corpo)}.footer-contacts a{display:inline-flex;align-items:center;gap:10px;max-width:100%;font:500 .9rem var(--corpo);overflow-wrap:anywhere}.footer-contacts svg{flex:none;width:20px;height:20px}.footer-location{margin:15px 0 0;color:rgba(231,235,237,.62);font:.82rem var(--mono)}.footer-bar{padding:20px 0;border-top:1px solid rgba(231,235,237,.14);color:rgba(231,235,237,.52);font:.74rem var(--mono)}.footer-bar a{color:rgba(231,235,237,.72)}
-    @media(max-width:900px){.footer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media(max-width:640px){#sobre .sobre-grid{grid-template-columns:1fr;gap:24px}.hero-cards{grid-template-columns:1fr}.hero-card{padding:18px}.footer-grid{grid-template-columns:1fr;gap:38px}.footer-bar{line-height:1.7}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-  </style>
+  <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
   <a class="skip-link" href="#inicio">Pular para o conteúdo</a>
@@ -214,7 +178,7 @@
       <details><summary>Como saber por onde começar?</summary><p>Comece pela tarefa frequente que mais consome tempo ou causa retrabalho — aquela que faz a equipe pensar: <strong>“Não é possível que ainda precisemos fazer isso manualmente.”</strong></p></details>
     </div></section>
 
-    <section class="wrap dark final"><p class="eyebrow" style="justify-content:center">Próximo passo</p><h2>Comece pela tarefa que mais se repete.</h2><a class="btn" href="#diagnostico">Analisar meu processo</a></section>
+    <section class="wrap dark final"><p class="eyebrow eyebrow-center">Próximo passo</p><h2>Comece pela tarefa que mais se repete.</h2><a class="btn" href="#diagnostico">Analisar meu processo</a></section>
   </main>
   <footer class="footer">
     <div class="footer-grid">
@@ -253,77 +217,6 @@
     <div class="footer-bar">© <span id="ano"></span> Braço Digital · <a href="politica-de-privacidade.html">Política de Privacidade</a></div>
   </footer>
 
-  <script>
-    (() => {
-      'use strict';
-      const $ = (selector) => document.querySelector(selector);
-      const menuButton = $('.hamb');
-      menuButton.addEventListener('click', () => {
-        const open = document.body.classList.toggle('menu-open');
-        menuButton.setAttribute('aria-expanded', String(open));
-      });
-      document.querySelectorAll('.menu a').forEach((link) => link.addEventListener('click', () => {
-        document.body.classList.remove('menu-open');
-        menuButton.setAttribute('aria-expanded', 'false');
-      }));
-      $('#ano').textContent = new Date().getFullYear();
-
-      const calcInputs = { pessoas: $('#pessoas'), custoMensal: $('#custo-mensal'), horasSemana: $('#horas-semana') };
-      const storageKey = 'bracoDigitalCalculadora.v2';
-      const parseDecimal = (value) => {
-        const clean = String(value ?? '').trim().replace(/\s/g, '').replace(',', '.');
-        const number = Number(clean);
-        return Number.isFinite(number) && number >= 0 ? number : 0;
-      };
-      const calculate = ({ pessoas, custoMensal, horasSemana }) => {
-        const horasAno = pessoas * horasSemana * 48;
-        const custoHora = custoMensal / 160;
-        return { horasAno, custoHora, custoAno: horasAno * custoHora };
-      };
-      const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
-      const numberBR = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
-      let calculatorState = { pessoas: 0, custoMensal: 0, horasSemana: 0, horasAno: 0, custoHora: 0, custoAno: 0 };
-      const updateCalculator = () => {
-        const values = Object.fromEntries(Object.entries(calcInputs).map(([key, input]) => [key, parseDecimal(input.value)]));
-        calculatorState = { ...values, ...calculate(values) };
-        $('#horas-ano').textContent = `${numberBR.format(calculatorState.horasAno)} h`;
-        $('#custo-ano').textContent = brl.format(calculatorState.custoAno);
-        try { sessionStorage.setItem(storageKey, JSON.stringify(values)); } catch (_) { /* armazenamento pode estar indisponível */ }
-      };
-      try {
-        const saved = JSON.parse(sessionStorage.getItem(storageKey));
-        if (saved && typeof saved === 'object') Object.entries(calcInputs).forEach(([key, input]) => { if (saved[key] !== undefined) input.value = saved[key]; });
-      } catch (_) { /* mantém valores padrão */ }
-      Object.values(calcInputs).forEach((input) => input.addEventListener('input', updateCalculator));
-      updateCalculator();
-
-      const form = $('#diagnostico-form');
-      const status = $('#form-status');
-      const button = form.querySelector('button[type="submit"]');
-      form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        status.textContent = '';
-        if (!form.checkValidity()) { form.reportValidity(); return; }
-        button.disabled = true;
-        button.textContent = 'Enviando…';
-        const data = Object.fromEntries(new FormData(form).entries());
-        data.calculadora = calculatorState;
-        try {
-          const response = await fetch('/api/diagnostico', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) });
-          const result = await response.json().catch(() => ({}));
-          if (!response.ok) throw new Error(result.error || 'Não foi possível enviar agora. Tente novamente.');
-          form.hidden = true;
-          const success = $('#form-success');
-          success.hidden = false;
-          success.focus();
-          try { window.dataLayer?.push({ event: 'diagnostico_enviado' }); } catch (_) { /* analytics nunca bloqueia o envio */ }
-        } catch (error) {
-          status.textContent = error.message || 'Não foi possível enviar agora. Tente novamente.';
-          button.disabled = false;
-          button.textContent = 'Enviar para análise';
-        }
-      });
-    })();
-  </script>
+  <script src="js/app.js"></script>
 </body>
 </html>

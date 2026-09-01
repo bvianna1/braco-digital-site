@@ -1,8 +1,53 @@
 import json
+import os
+import tempfile
 import unittest
 from unittest.mock import patch
 
 import server
+
+
+class RateLimiterTests(unittest.TestCase):
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.state_file = os.path.join(self._tmp.name, "rate-limit.json")
+        self.environment = patch.dict(
+            os.environ, {"RATE_LIMIT_STATE_FILE": self.state_file}
+        )
+        self.environment.start()
+        self.addCleanup(self.environment.stop)
+
+    def test_rate_limit_blocks_after_limit(self):
+        rl = server.RateLimiter()
+        for _ in range(5):
+            self.assertTrue(rl.allow("client"))
+        self.assertFalse(rl.allow("client"))
+
+    def test_rate_limit_releases_after_window(self):
+        with patch("server.time.time", return_value=1_000.0):
+            rl = server.RateLimiter()
+            for _ in range(5):
+                self.assertTrue(rl.allow("client"))
+            self.assertFalse(rl.allow("client"))
+        with patch("server.time.time", return_value=1_601.0):
+            self.assertTrue(rl.allow("client"))
+
+    def test_rate_limit_persists_state_to_file(self):
+        rl = server.RateLimiter()
+        self.assertTrue(rl.allow("client"))
+        with open(self.state_file, encoding="utf-8") as state_file:
+            state = json.load(state_file)
+        self.assertIn("client", state["clients"])
+
+    def test_rate_limit_reloads_state_from_file(self):
+        state = {"clients": {"client": [999.0] * 4}, "saved_at": 999.0}
+        with open(self.state_file, "w", encoding="utf-8") as state_file:
+            json.dump(state, state_file)
+        with patch("server.time.time", return_value=1_000.0):
+            rl = server.RateLimiter()
+            self.assertTrue(rl.allow("client"))
+            self.assertFalse(rl.allow("client"))
 
 
 class ContactApiTests(unittest.TestCase):
