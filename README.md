@@ -87,5 +87,9 @@ docker build -t braco-digital-api:test api
 git diff --check
 ```
 
+**Escopo de teste de carga:** o rate limit (5/600s) é validado somente em teste local/CI
+(12 casos em `api/test_server.py`). **Não** se realiza teste de carga contra o ambiente de
+produção nem contra a instância pública — carga pública fica fora do escopo desta API.
+
 Nenhum passo deste README publica, faz push ou merge.
 <!-- deploy-watcher test 2026-08-24 -->
