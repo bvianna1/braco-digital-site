@@ -13,3 +13,8 @@ p.lead{color:var(--grafite);font-size:1.08rem;max-width:60ch;margin-bottom:48px}
 .block p{color:var(--grafite);margin-top:8px;font-size:.98rem}
 .cta{margin-top:48px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:14px 22px;border:1px solid var(--sinal);background:var(--sinal);color:var(--tinta);font:700 .76rem var(--mono);letter-spacing:.05em;text-decoration:none;text-transform:uppercase}.btn:hover{filter:brightness(1.06)}
 @media(max-width:600px){.wrap{padding:110px 20px 60px}}
+/* --- Tarefa 4: botão flutuante WhatsApp --- */
+.wa-float{position:fixed;right:16px;bottom:16px;width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:50}
+.wa-float:hover{filter:brightness(1.05)}
+@media (min-width:900px){.wa-float{display:none}}
+@media (prefers-reduced-motion:no-preference){.wa-float{transition:transform .15s}.wa-float:active{transform:scale(.95)}}

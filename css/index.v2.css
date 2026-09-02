@@ -25,3 +25,9 @@ h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--display);font-variation-setti
 @media(max-width:640px){#sobre .sobre-grid{grid-template-columns:1fr;gap:24px}.hero-cards{grid-template-columns:1fr}.hero-card{padding:18px}.footer-grid{grid-template-columns:1fr;gap:38px}.footer-bar{line-height:1.7}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 .eyebrow-center{justify-content:center}
+/* --- Tarefa 4: CTA da calculadora e botão flutuante WhatsApp --- */
+.calc-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.wa-float{position:fixed;right:16px;bottom:16px;width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:50}
+.wa-float:hover{filter:brightness(1.05)}
+@media (min-width:900px){.wa-float{display:none}}
+@media (prefers-reduced-motion:no-preference){.wa-float{transition:transform .15s}.wa-float:active{transform:scale(.95)}}
