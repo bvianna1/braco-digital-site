@@ -1,4 +1,4 @@
-:root{--gelo:#e7ebed;--papel:#f1f4f5;--tinta:#12181d;--tinta2:#1b232a;--grafite:#65727c;--sinal:#9fd0e3;--fiorde:#2c5f7c;--display:'Archivo',system-ui,sans-serif;--corpo:'Inter',system-ui,sans-serif;--mono:'Space Mono',monospace;--mx:clamp(20px,5vw,88px)}
+:root{--gelo:#e7ebed;--papel:#f1f4f5;--tinta:#12181d;--tinta2:#1b232a;--grafite:#65727c;--sinal:#9fd0e3;--fiorde:#2c5f7c;--display:'Archivo',system-ui,sans-serif;--corpo:'Inter',system-ui,sans-serif;--mono:'Space Mono',monospace;--mx:clamp(20px,5vw,88px);--borda:1px solid rgba(18,24,29,.15)}
 *{box-sizing:border-box;margin:0}
 body{margin:0;background:var(--gelo);color:var(--tinta);font:17px/1.58 var(--corpo)}
 a{color:inherit}
@@ -20,3 +20,6 @@ p.lead{color:var(--grafite);font-size:1.08rem;max-width:60ch;margin-bottom:48px}
 .wa-float:hover{filter:brightness(1.05)}
 @media (min-width:900px){.wa-float{display:none}}
 @media (prefers-reduced-motion:no-preference){.wa-float{transition:transform .15s}.wa-float:active{transform:scale(.95)}}
+/* --- FAQ (mesmas regras do index.v2.css) --- */
+.faq{max-width:900px;margin-top:40px}.faq details{border-top:var(--borda);padding:20px 0}.faq details:last-child{border-bottom:var(--borda)}.faq summary{cursor:pointer;font:700 1rem var(--mono)}.faq details p{margin:14px 0 0;max-width:70ch;color:var(--grafite)}
+.faq-sec{margin-top:48px}
