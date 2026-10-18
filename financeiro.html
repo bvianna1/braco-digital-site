@@ -10,7 +10,7 @@
   <meta property="og:site_name" content="Braço Digital">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:title" content="Financeiro sem trabalho repetitivo">
-  <meta property="og:description" content="Contas a pagar, conciliação, cobranças e relatórios rodando sozinhos, com exceção tratada por gente.">
+  <meta property="og:description" content="Contas a pagar, conciliação e cobranças rodando com histórico. Quando algo sai da regra, a automação para e chama uma pessoa.">
   <meta property="og:url" content="https://bracodigital.com.br/financeiro.html">
   <meta property="og:image" content="https://bracodigital.com.br/assets/og-imagem.jpg">
   <meta property="og:image:width" content="1200">
@@ -39,9 +39,57 @@
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Financeiro",
-    "description": "Automação para organizar o que se repete todo mês, com controle e rastreio de cada etapa.",
+    "description": "Contas a pagar, conciliação e cobranças rodando com histórico. Quando algo sai da regra, a automação para e chama uma pessoa.",
     "provider": {"@id": "https://bracodigital.com.br/#organization"},
     "url": "https://bracodigital.com.br/financeiro.html"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Preciso trocar meu sistema de gestão financeira?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Não necessariamente. O primeiro passo é olhar o que já existe: banco, sistema, emissor de nota, planilha. Boa parte do ganho vem de conectar o que já está lá, não de substituir."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "A automação paga contas sozinha?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Do jeito que assusta, não. Ela prepara, confere e organiza, e o pagamento acontece dentro dos limites e das alçadas que a empresa define. Acima do limite, o fluxo para e espera aprovação."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "E quando o valor não bate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A diferença aparece item por item, com data e valor de cada lado. O que não tem explicação clara vai para conferência humana em vez de ser ajustado por conta própria."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Serve para empresa com o financeiro na mão de uma pessoa só?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Serve, e costuma ser onde o ganho aparece mais rápido. Quando tudo depende de uma pessoa, é ela quem fica fora do ar nas férias, nas emergências e nos dias em que a conta não fecha."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Quanto tempo leva para implantar?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Depende de quantas contas, quantos sistemas e qual o volume do mês. Isso é mapeado na análise inicial, e o prazo sai com número, não com estimativa."
+        }
+      }
+    ]
   }
   </script>
 </head>
@@ -50,12 +98,38 @@
   <main class="wrap">
     <p class="eyebrow">Financeiro</p>
     <h1>O financeiro sem o peso da repetição.</h1>
-    <p class="lead">Automação para organizar o que se repete todo mês, com controle e rastreio de cada etapa.</p>
+    <p class="lead">Contas a pagar, conciliação e cobranças rodando com histórico. Quando algo sai da regra, a automação para e chama uma pessoa.</p>
     <div class="blocks">
-      <div class="block"><h2>Contas a pagar e receber</h2><p>Reúne vencimentos, status e pendências num único fluxo, para facilitar o acompanhamento.</p></div>
-      <div class="block"><h2>Conciliação e cobranças</h2><p>Cruza lançamentos, identifica divergências e organiza cobranças e lembretes sem planilha espalhada.</p></div>
-      <div class="block"><h2>Relatórios prontos</h2><p>Fluxos de dados e relatórios consolidados para apoiar a decisão do gestor e do contador.</p></div>
+      <div class="block"><h2>Contas a pagar e receber</h2><p>Vencimentos, status e pendências num fluxo só. A automação confere o que chegou, registra quem aprovou e avisa o que está parado há tempo demais. As alçadas são as suas: até certo valor o fluxo segue, acima dele para e espera aprovação de gente. Conta repetida, valor fora do contrato e boleto sem lastro aparecem antes de virarem pagamento, e cada movimentação guarda quem pediu, quem aprovou e quando. A agenda do mês pode ser lida por semana, por fornecedor ou por centro de custo, e atraso recorrente fica visível, porque atraso repetido costuma dizer mais sobre o processo do que sobre o caixa.</p></div>
+      <div class="block"><h2>Conciliação e cobranças</h2><p>Cruza o que foi lançado com o que foi pago e mostra o que não bate, diferença por diferença, com data e valor de cada lado. O que tem explicação simples é classificado; o que não tem vai para conferência humana, em vez de ser ajustado por conta própria. Cobranças e lembretes saem na data combinada e ficam registrados, então a cobrança deixa de depender de alguém lembrar de mandar. Quem já fechou o mês conciliando em planilha sabe onde mora o trabalho: o total costuma bater, o detalhe é que não, e é no detalhe que está o erro.</p></div>
+      <div class="block"><h2>Relatórios prontos</h2><p>Consolida o mês e entrega o que o gestor e o contador precisam ver: entradas, saídas, pendências e divergências abertas. O relatório sai no ritmo que você definir, com separação clara entre o que foi conferido automaticamente e o que passou por decisão humana. Em vez de alguém montar a planilha do fechamento, ela chega pronta para conferência. Cada número mostra de onde veio, o que faz diferença no dia em que alguém pergunta como aquilo foi calculado.</p></div>
     </div>
+    <section class="faq-sec" id="faq">
+      <p class="eyebrow">FAQ</p>
+      <h2>Perguntas frequentes.</h2>
+      <div class="faq">
+        <details>
+          <summary>Preciso trocar meu sistema de gestão financeira?</summary>
+          <p>Não necessariamente. O primeiro passo é olhar o que já existe: banco, sistema, emissor de nota, planilha. Boa parte do ganho vem de conectar o que já está lá, não de substituir.</p>
+        </details>
+        <details>
+          <summary>A automação paga contas sozinha?</summary>
+          <p>Do jeito que assusta, não. Ela prepara, confere e organiza, e o pagamento acontece dentro dos limites e das alçadas que a empresa define. Acima do limite, o fluxo para e espera aprovação.</p>
+        </details>
+        <details>
+          <summary>E quando o valor não bate?</summary>
+          <p>A diferença aparece item por item, com data e valor de cada lado. O que não tem explicação clara vai para conferência humana em vez de ser ajustado por conta própria.</p>
+        </details>
+        <details>
+          <summary>Serve para empresa com o financeiro na mão de uma pessoa só?</summary>
+          <p>Serve, e costuma ser onde o ganho aparece mais rápido. Quando tudo depende de uma pessoa, é ela quem fica fora do ar nas férias, nas emergências e nos dias em que a conta não fecha.</p>
+        </details>
+        <details>
+          <summary>Quanto tempo leva para implantar?</summary>
+          <p>Depende de quantas contas, quantos sistemas e qual o volume do mês. Isso é mapeado na análise inicial, e o prazo sai com número, não com estimativa.</p>
+        </details>
+      </div>
+    </section>
     <section class="links-sec">
       <p class="eyebrow">Áreas</p>
       <h2>Outras rotinas que a gente automatiza.</h2>
