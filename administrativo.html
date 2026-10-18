@@ -39,9 +39,57 @@
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Administrativo",
-    "description": "Automação para organizar documentos, cadastros e tarefas internas que se repetem toda semana.",
+    "description": "Documentos, cadastros e tarefas internas que se repetem toda semana, com histórico de quem fez o quê.",
     "provider": {"@id": "https://bracodigital.com.br/#organization"},
     "url": "https://bracodigital.com.br/administrativo.html"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Isso é digitalizar documento?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Não. Digitalizar resolve o arquivo e não resolve a rotina: quem manda, em que prazo, o que falta, quem aprovou. A automação cuida dessa parte, e ela é a que costuma consumir o tempo da equipe."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Funciona com o que a equipe já usa, como Drive, e-mail e WhatsApp?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Na maioria dos casos, sim. O ponto é reduzir o número de lugares onde a mesma informação precisa ser digitada de novo, e não obrigar todo mundo a mudar de ferramenta."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Minha equipe não é técnica. Isso trava?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Não deveria. Se a solução exigir que a equipe aprenda coisa nova para o trabalho andar, ela está mal escolhida. O critério é o contrário: menos lugar para clicar e menos passo para lembrar."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Quem é avisado quando algo emperra?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A pessoa responsável pela pendência, com prazo. Quem coordena vê o que está parado sem precisar perguntar para a equipe todos os dias."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Por onde começar?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pela rotina que mais consome tempo hoje e que ninguém quer continuar fazendo do jeito antigo. A análise inicial aponta qual delas dá retorno primeiro."
+        }
+      }
+    ]
   }
   </script>
 </head>
@@ -50,12 +98,38 @@
   <main class="wrap">
     <p class="eyebrow">Administrativo</p>
     <h1>Rotinas administrativas sem retrabalho.</h1>
-    <p class="lead">Automação para organizar documentos, cadastros e tarefas internas que se repetem toda semana.</p>
+    <p class="lead">Documentos, cadastros e tarefas internas que se repetem toda semana, com histórico de quem fez o quê.</p>
     <div class="blocks">
-      <div class="block"><h2>Documentos e arquivos</h2><p>Organiza recebimento, nomeação e arquivamento de documentos com rastreio e histórico.</p></div>
-      <div class="block"><h2>Cadastros e atualizações</h2><p>Reúne dados que hoje vivem espalhados em planilhas, e-mails e sistemas.</p></div>
-      <div class="block"><h2>Rotinas internas</h2><p>Dispara lembretes, pendências e status para a equipe acompanhar sem perseguir manualmente.</p></div>
+      <div class="block"><h2>Documentos e arquivos</h2><p>Recebimento, nomeação e arquivamento com histórico: cada documento guarda quem enviou, quando chegou e onde foi arquivado. Documento incompleto volta para quem enviou com a lista do que falta, em vez de ficar parado na caixa de entrada esperando alguém notar. Contrato, nota, comprovante e proposta ficam no mesmo lugar, com busca por nome, data ou assunto, o que resolve aquela tarde perdida procurando o arquivo que a equipe jura que enviou. A pergunta que mais consome tempo no administrativo, onde está o documento, deixa de existir quando o arquivo guarda o próprio histórico.</p></div>
+      <div class="block"><h2>Cadastros e atualizações</h2><p>Dados que hoje vivem espalhados em planilhas, e-mails e sistemas passam a ter uma fonte só, atualizada. Cadastro repetido, telefone velho e versão antiga de arquivo deixam de decidir o que a equipe usa. Quando a informação muda na origem, ela muda para quem precisa dela, sem alguém passar o dia copiando de uma tela para outra. A atualização acontece quando o dado nasce, e não na semana seguinte, quando alguém lembra de lançar.</p></div>
+      <div class="block"><h2>Rotinas internas</h2><p>Lembretes, pendências e status chegam para a pessoa certa, no dia em que importam. Ninguém precisa perseguir colega por atualização, e o que está atrasado aparece antes de virar problema. A tarefa que depende de três pessoas deixa de depender de uma delas lembrar de cobrar as outras duas. Onboarding, férias e troca de responsável entram no mesmo fluxo, com o que ficou pendente visível para quem assume. O que era cobrança interna vira acompanhamento: a pendência aparece na tela antes de alguém ter de perguntar de novo.</p></div>
     </div>
+    <section class="faq-sec" id="faq">
+      <p class="eyebrow">FAQ</p>
+      <h2>Perguntas frequentes.</h2>
+      <div class="faq">
+        <details>
+          <summary>Isso é digitalizar documento?</summary>
+          <p>Não. Digitalizar resolve o arquivo e não resolve a rotina: quem manda, em que prazo, o que falta, quem aprovou. A automação cuida dessa parte, e ela é a que costuma consumir o tempo da equipe.</p>
+        </details>
+        <details>
+          <summary>Funciona com o que a equipe já usa, como Drive, e-mail e WhatsApp?</summary>
+          <p>Na maioria dos casos, sim. O ponto é reduzir o número de lugares onde a mesma informação precisa ser digitada de novo, e não obrigar todo mundo a mudar de ferramenta.</p>
+        </details>
+        <details>
+          <summary>Minha equipe não é técnica. Isso trava?</summary>
+          <p>Não deveria. Se a solução exigir que a equipe aprenda coisa nova para o trabalho andar, ela está mal escolhida. O critério é o contrário: menos lugar para clicar e menos passo para lembrar.</p>
+        </details>
+        <details>
+          <summary>Quem é avisado quando algo emperra?</summary>
+          <p>A pessoa responsável pela pendência, com prazo. Quem coordena vê o que está parado sem precisar perguntar para a equipe todos os dias.</p>
+        </details>
+        <details>
+          <summary>Por onde começar?</summary>
+          <p>Pela rotina que mais consome tempo hoje e que ninguém quer continuar fazendo do jeito antigo. A análise inicial aponta qual delas dá retorno primeiro.</p>
+        </details>
+      </div>
+    </section>
     <section class="links-sec">
       <p class="eyebrow">Áreas</p>
       <h2>Outras rotinas que a gente automatiza.</h2>

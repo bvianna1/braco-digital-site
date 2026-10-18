@@ -39,9 +39,57 @@
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Dados e relatórios",
-    "description": "Automação para consolidar, cruzar e monitorar informações que hoje exigem trabalho manual e repetitivo.",
+    "description": "Consolidar, cruzar e monitorar informação sem copiar dado à mão, com o histórico guardado.",
     "provider": {"@id": "https://bracodigital.com.br/#organization"},
     "url": "https://bracodigital.com.br/relatorios.html"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Preciso de um sistema novo para ter relatório?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Na maioria dos casos, não. Se os dados já existem em algum lugar, o trabalho é ligar as fontes e organizar a saída. Trocar de sistema é decisão de outra ordem, e só entra se fizer sentido por outros motivos."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "O relatório sai sozinho?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sai no ritmo que a empresa definir: diário, semanal, no fechamento do mês. O que exige julgamento continua passando por gente, com o motivo registrado."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "E quando dois números não batem?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A divergência é destacada em vez de escondida, com a origem de cada lado. Decidir qual número vale é decisão humana, e fica registrado quem decidiu."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Dá para acompanhar indicador de projeto, não só número financeiro?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sim. Prazo, etapa, meta, execução e pendência entram no mesmo painel, com o que está fora do previsto em destaque."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Isso exige alguém dedicado só a manter os painéis?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Não. A manutenção faz parte do que implantamos. Se o painel depender de alguém dentro da empresa virar analista de dados, ele para de ser atualizado no primeiro mês cheio."
+        }
+      }
+    ]
   }
   </script>
 </head>
@@ -50,12 +98,38 @@
   <main class="wrap">
     <p class="eyebrow">Dados e relatórios</p>
     <h1>Decida com dados prontos, não planilhas no escuro.</h1>
-    <p class="lead">Automação para consolidar, cruzar e monitorar informações que hoje exigem trabalho manual e repetitivo.</p>
+    <p class="lead">Consolidar, cruzar e monitorar informação sem copiar dado à mão, com o histórico guardado.</p>
     <div class="blocks">
-      <div class="block"><h2>Consolidação automática</h2><p>Reúne dados de várias fontes num só lugar, sem precisar copiar e juntar tudo à mão.</p></div>
-      <div class="block"><h2>Cruzamento e divergências</h2><p>Compara informações e destaca o que não bate, com validação humana nos casos de baixa confiança.</p></div>
-      <div class="block"><h2>Monitoramento e alertas</h2><p>Acompanha assuntos e novas publicações, consolidando um relatório com notificação.</p></div>
+      <div class="block"><h2>Consolidação automática</h2><p>As fontes que você já usa alimentam um quadro só, atualizado no ritmo do seu mês. Nada é copiado à mão, e duas versões do mesmo número não circulam pela empresa. Indicadores de venda, produção, projetos, prazos e financeiro podem conviver no mesmo painel, cada um com a sua fonte, e o que está fora do previsto aparece em destaque em vez de se perder na média. Um painel só vale quando alguém confia nele, por isso cada número mostra a fonte e a data da última atualização, e o que está desatualizado aparece marcado em vez de aparecer bonito.</p></div>
+      <div class="block"><h2>Cruzamento e divergências</h2><p>Compara o que deveria estar ali com o que está e destaca o que não bate, com a origem de cada lado. Quando a informação chega incompleta ou ambígua, o caso para e vai para revisão humana, com o motivo registrado. Assim a divergência deixa de ser descoberta na reunião mais importante, quando já não há tempo de conferir com calma. A pergunta deixa de ser quem está certo e passa a ser o que explica a diferença, com as duas bases lado a lado.</p></div>
+      <div class="block"><h2>Monitoramento e alertas</h2><p>Acompanha os assuntos e as publicações que importam para o seu caso e avisa quando algo muda. Prazo que se aproxima, meta que saiu da linha, contrato que vence e pendência que travou aparecem para quem resolve, não só para quem reporta. O histórico fica guardado para consulta, e a conferência deixa de depender de alguém lembrar de abrir o sistema. O aviso chega com contexto: o que mudou, o que estava previsto e quem responde por aquilo.</p></div>
     </div>
+    <section class="faq-sec" id="faq">
+      <p class="eyebrow">FAQ</p>
+      <h2>Perguntas frequentes.</h2>
+      <div class="faq">
+        <details>
+          <summary>Preciso de um sistema novo para ter relatório?</summary>
+          <p>Na maioria dos casos, não. Se os dados já existem em algum lugar, o trabalho é ligar as fontes e organizar a saída. Trocar de sistema é decisão de outra ordem, e só entra se fizer sentido por outros motivos.</p>
+        </details>
+        <details>
+          <summary>O relatório sai sozinho?</summary>
+          <p>Sai no ritmo que a empresa definir: diário, semanal, no fechamento do mês. O que exige julgamento continua passando por gente, com o motivo registrado.</p>
+        </details>
+        <details>
+          <summary>E quando dois números não batem?</summary>
+          <p>A divergência é destacada em vez de escondida, com a origem de cada lado. Decidir qual número vale é decisão humana, e fica registrado quem decidiu.</p>
+        </details>
+        <details>
+          <summary>Dá para acompanhar indicador de projeto, não só número financeiro?</summary>
+          <p>Sim. Prazo, etapa, meta, execução e pendência entram no mesmo painel, com o que está fora do previsto em destaque.</p>
+        </details>
+        <details>
+          <summary>Isso exige alguém dedicado só a manter os painéis?</summary>
+          <p>Não. A manutenção faz parte do que implantamos. Se o painel depender de alguém dentro da empresa virar analista de dados, ele para de ser atualizado no primeiro mês cheio.</p>
+        </details>
+      </div>
+    </section>
     <section class="links-sec">
       <p class="eyebrow">Áreas</p>
       <h2>Outras rotinas que a gente automatiza.</h2>
