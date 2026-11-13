@@ -4,7 +4,14 @@ Site institucional estático com uma API Python separada para receber pedidos de
 
 ## Estrutura
 
-- `index.html`: home completa, CSS e JavaScript inline.
+- `index.html`: home completa (formulário de diagnóstico, calculadora e seções de serviço).
+- `osc.html`, `financeiro.html`, `administrativo.html`, `relatorios.html`: páginas de serviço
+  (versão B, no padrão do piloto `osc.html`).
+- `politica-de-privacidade.html`: política de privacidade publicada e linkada no consentimento do
+  formulário da home.
+- `css/` (`index.v2.css`, `paginas.v2.css`, `politica.v2.css`) e `js/app.v2.js`: estilos e script
+  **externos**, referenciados com token de versão na URL (`?v=<hash>`) porque o Nginx serve esses
+  arquivos com cache imutável de um ano.
 - `assets/`: logos, favicon e imagem de compartilhamento.
 - `Dockerfile`: imagem Nginx do site estático.
 - `api/server.py`: `POST /api/diagnostico`, somente com Python stdlib.
@@ -75,7 +82,12 @@ Em ambos os casos, não altere `RATE_LIMIT_STATE_FILE` (mantenha o default) e n�
 
 A API aceita JSON de até 16 KB, valida e limita campos, remove caracteres de controle, usa honeypot, exige consentimento, restringe CORS e aplica até 5 tentativas por IP de conexão em 10 minutos. Os resultados da calculadora são recalculados no servidor. Logs operacionais não contêm IP, nome, e-mail, caminho ou conteúdo enviado.
 
-Ainda não existe política de privacidade no repositório. Por isso o consentimento permanece sem link e usa o texto: “Ao enviar este formulário, você concorda com o uso das informações fornecidas exclusivamente para análise e contato sobre sua solicitação.” Pendência: revisar o consentimento juridicamente e criar e vincular uma política antes de uma campanha ampla.
+A **política de privacidade existe e está publicada** em `politica-de-privacidade.html` (também no
+`sitemap.xml`), e o consentimento do formulário da home aponta para ela. O texto do consentimento é:
+“Ao enviar este formulário, você concorda com o uso das informações fornecidas exclusivamente para
+análise e contato sobre sua solicitação.” Pendência real: revisão jurídica do texto da política antes
+de uma campanha ampla — o conteúdo atual foi aplicado em 16/08/2026 com base na Resolução ANPD
+2/2022, sem parecer de advogado.
 
 ## Validação
 

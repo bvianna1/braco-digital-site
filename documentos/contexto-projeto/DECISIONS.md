@@ -121,25 +121,31 @@ lead da página.
 **Evidência:** cards `t_ce07aa71` (versão B das três internas) e `t_3aca6439` (correção do
 `og:description` do financeiro + merge/push); merges `3c20cfa` e `af87fd2` no `main`.
 
-## D11 — Versionamento de asset contra cache do Cloudflare · **em aberto**
+## D11 — Versionamento de asset contra cache do Cloudflare · adotada (medida em 2026-11-13)
 
-**Situação:** o Cloudflare serve asset com cache imutável, o que exige versão na URL (ex.:
-`index.v2.css?v=20261029`) para o visitante receber CSS novo. Hoje **nenhuma** das seis páginas usa
-query de versão: as referências são `css/*.v2.css` e `js/app.v2.js` sem `?v=`. O padrão usado até
-agora foi **renomear a versão no nome do arquivo** (`v2`).
+**Decisão:** o endereço do CSS/JS leva token de versão (`?v=<7 primeiros caracteres do sha256 do
+arquivo>`), porque o Nginx serve esses arquivos com `cache-control: max-age=31536000, immutable` —
+sem trocar o endereço, o visitante que já visitou não recebe a versão nova.
 
-**Evidência:** `grep` por `?v=` nas seis páginas → **0 ocorrências**; os três CSS e o JS são `v2`.
+**Estado medido (2026-11-13):** home em `css/index.v2.css?v=f4e66e1`; `osc`, `financeiro`,
+`administrativo` e `relatorios` em `css/paginas.v2.css?v=seoh1`; `politica-de-privacidade.html`
+estava **sem** token e foi corrigido para `?v=d9f2841`. O token `seoh1` é artesanal — migrar para o
+padrão de hash quando aquele arquivo mudar de novo.
 
-**Decisão necessária:** manter "nova versão = novo nome de arquivo" (o que exige atualizar o
-`Dockerfile` e as seis páginas) ou passar a usar query `?v=`. Sem decisão, a próxima mudança de CSS
-pode não chegar ao visitante que já tem cache.
+**Correção de registro:** a versão anterior desta decisão dizia que "nenhuma das seis páginas usa
+query de versão" e trazia `grep → 0 ocorrências`. **Era falso**: a regex de medição exigia dígitos
+após `v=` e não reconheceu tokens hexadecimais/alfanuméricos. Fica o aprendizado: ao afirmar
+ausência, testar o padrão contra um exemplo positivo antes de concluir.
 
-## D12 — `README.md` desatualizado · **em aberto**
+**Consequência:** a regra de troca de token está no `AGENTS.md` §2. Quem editar CSS/JS e esquecer de
+trocar o token publica uma página que parece quebrada para quem tem cache.
 
-**Situação:** o README descreve um site de uma página com CSS/JS inline e afirma que não existe
-política de privacidade. A realidade medida em 2026-10-29: 6 páginas, assets externos `v2`,
+## D12 — `README.md` desatualizado · resolvida em 2026-11-13
+
+**Situação anterior:** o README descrevia um site de uma página com CSS/JS inline e afirmava que não
+existia política de privacidade. A realidade medida em 2026-10-29: 6 páginas, assets externos `v2`,
 `politica-de-privacidade.html` publicada e no sitemap.
 
-**Decisão necessária:** corrigir o README (referência técnica de API/deploy) ou marcá-lo como
-parcial e mover a referência definitiva para `documentos/`. Enquanto não houver decisão, o
-`AGENTS.md` avisa que o README está desatualizado.
+**Resolução (2026-11-13):** o README passou a listar as 6 páginas, os assets externos com token de
+versão e a política existente e linkada no consentimento. Mantém-se como referência técnica
+(API/deploy); regra transversal continua no `AGENTS.md` e o estado datado no `STATUS.md`.

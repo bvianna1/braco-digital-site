@@ -41,6 +41,13 @@ conteúdo, visual ou contrato de API **não** mora aqui: mora na fonte canônica
 - **Página nova entra em três lugares, sempre os três:** `Dockerfile` (COPY explícito), `sitemap.xml`
   (com `lastmod` correto) e os links internos/`og:`. Página sem COPY não é publicada; página fora do
   sitemap não é indexada.
+- **Ao mudar CSS, JS ou logo, troque o token de versão na URL — em todas as páginas que o usam.**
+  O Nginx serve esses arquivos com `cache-control: max-age=31536000, immutable`, então o endereço é a
+  única forma de forçar o visitante a baixar a versão nova; sem trocar o token, a página nova aparece
+  com o estilo velho por até um ano. Convenção vigente: `?v=<7 primeiros caracteres do sha256 do
+  arquivo>` (ex.: `css/politica.v2.css?v=d9f2841`). Tokens antigos feitos à mão (`?v=seoh1`) devem ser
+  migrados para o padrão de hash quando o arquivo mudar de novo. Conferir com:
+  `grep -o 'css/[^"]*' *.html | sort -u`.
 - **`lastmod` do sitemap = data do último commit de conteúdo daquela página**, não a data do dia.
 - **Não reescrever página publicada sem preview aprovado.** Mudança visual/frase de conversão se
   mostra no preview (Tailscale/desktop) e o Bruno aprova antes do merge.

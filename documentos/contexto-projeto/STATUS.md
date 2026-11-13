@@ -43,10 +43,16 @@ automático continue funcionando amanhã — ver §3.
   **não instrumentado** ainda. O GA4 presente nas páginas mede pageview, não conversão.
 - **Rate limit em produção:** só há evidência em teste local/CI (12 casos). Teste de carga em
   produção é **proibido** (D3) — a afirmação fica limitada ao teste.
-- **`README.md` está desatualizado** (medido): cita só `index.html`; diz "CSS e JavaScript inline"
-  quando as seis páginas usam `css/*.v2.css` + `js/app.v2.js`; e diz que "ainda não existe política
-  de privacidade" quando `politica-de-privacidade.html` existe e está no sitemap. Corrigir o README é
-  trabalho novo, ainda não feito.
+- ~~`README.md` desatualizado~~ — **corrigido em 2026-11-13**: passou a listar as 6 páginas, os assets
+  externos com token de versão e a existência da política de privacidade publicada e linkada no
+  consentimento. Correção feita com patch local; publicação depende do fluxo normal (D1).
+- **Versionamento de asset: existe, mas era irregular.** Medição de 2026-11-13: home usa
+  `css/index.v2.css?v=f4e66e1`; quatro páginas usam `css/paginas.v2.css?v=seoh1`; a política usava
+  `css/politica.v2.css` **sem token** (corrigido para `?v=d9f2841`). A regra de troca de token agora
+  está escrita no `AGENTS.md` §2 — antes dependia de memória, e o token `seoh1` é artesanal, não hash.
+- **Aviso de medição:** a primeira leitura deste repositório (2026-10-29) afirmou "nenhum asset usa
+  `?v=`" — era **falso**, produzido por uma regex que exigia dígitos após `v=`. Os tokens reais são
+  hexadecimais (`f4e66e1`) e alfanuméricos (`seoh1`). Corrigido aqui e em `DECISIONS.md` D11.
 - **Clones paralelos do repositório — medidos hoje.** Cinco diretórios irmãos
   (`braco-digital-{api-ratelimit,fix-sobre,ratelimit-volume,security,seo-osc}`) estão em branches
   próprias, **todas atrás** de `origin/main` (34, 46, 36, 43 e 11 commits atrás) e **nenhuma à
