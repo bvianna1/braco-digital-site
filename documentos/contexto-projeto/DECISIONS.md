@@ -132,6 +132,13 @@ sem trocar o endereço, o visitante que já visitou não recebe a versão nova.
 estava **sem** token e foi corrigido para `?v=d9f2841`. O token `seoh1` é artesanal — migrar para o
 padrão de hash quando aquele arquivo mudar de novo.
 
+**Estado após normalização (2026-11-13, lote `site/tokens-versao-hashes`):** `js/app.v2.js?v=2724a85`
+e `assets/marca/logo-light.svg?v=5dd0c38` nas seis páginas, `css/index.v2.css?v=5b64311` na home —
+todos iguais ao sha7 do sha256 do arquivo. Única exceção: `?v=seoh1` nas quatro páginas que usam
+`paginas.v2.css`. Os tokens `f4e66e1` e `a886879` nunca foram hash do arquivo que acompanhavam: o
+`f4e66e1` nasceu em commit posterior à última mudança de conteúdo do CSS, ou seja, o endereço nunca
+apontou para o conteúdo servido — o cache imutável de um ano podia servir CSS velho.
+
 **Correção de registro:** a versão anterior desta decisão dizia que "nenhuma das seis páginas usa
 query de versão" e trazia `grep → 0 ocorrências`. **Era falso**: a regex de medição exigia dígitos
 após `v=` e não reconheceu tokens hexadecimais/alfanuméricos. Fica o aprendizado: ao afirmar
@@ -149,3 +156,10 @@ existia política de privacidade. A realidade medida em 2026-10-29: 6 páginas, 
 **Resolução (2026-11-13):** o README passou a listar as 6 páginas, os assets externos com token de
 versão e a política existente e linkada no consentimento. Mantém-se como referência técnica
 (API/deploy); regra transversal continua no `AGENTS.md` e o estado datado no `STATUS.md`.
+
+**Complemento (2026-11-13, lote `site/tokens-versao-hashes`):** a frase do README sobre "token de
+versão (`?v=<hash>`)" ainda era falsa quando foi escrita, porque `js/app.v2.js` não tinha token e dois
+tokens não eram hash. Passou a ser verdadeira na normalização descrita em D11; a exceção `seoh1` está
+declarada no próprio README. A citação "Resolução ANPD 2/2022", sem fonte no repositório, foi
+substituída pela data e pelo commit que comprovam o texto (`67904dd`); a revisão jurídica pendente
+continua declarada.

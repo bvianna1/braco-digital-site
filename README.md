@@ -10,9 +10,12 @@ Site institucional estático com uma API Python separada para receber pedidos de
 - `politica-de-privacidade.html`: política de privacidade publicada e linkada no consentimento do
   formulário da home.
 - `css/` (`index.v2.css`, `paginas.v2.css`, `politica.v2.css`) e `js/app.v2.js`: estilos e script
-  **externos**, referenciados com token de versão na URL (`?v=<hash>`) porque o Nginx serve esses
-  arquivos com cache imutável de um ano.
-- `assets/`: logos, favicon e imagem de compartilhamento.
+  **externos**, carregados com token de versão na URL — `?v=<7 primeiros caracteres do sha256 do
+  arquivo>`, ex.: `js/app.v2.js?v=2724a85` — porque o Nginx serve esses arquivos com cache imutável
+  de um ano (convenção no `AGENTS.md` §2). Uma exceção declarada: `css/paginas.v2.css` ainda usa o
+  token artesanal `?v=seoh1`, que migra para o padrão de hash quando o arquivo mudar de novo.
+- `assets/`: logos, favicon e imagem de compartilhamento. O logo `assets/marca/logo-light.svg`
+  também é carregado com token de versão, pelo mesmo motivo.
 - `Dockerfile`: imagem Nginx do site estático.
 - `api/server.py`: `POST /api/diagnostico`, somente com Python stdlib.
 - `api/Dockerfile`: imagem separada da API.
@@ -86,8 +89,8 @@ A **política de privacidade existe e está publicada** em `politica-de-privacid
 `sitemap.xml`), e o consentimento do formulário da home aponta para ela. O texto do consentimento é:
 “Ao enviar este formulário, você concorda com o uso das informações fornecidas exclusivamente para
 análise e contato sobre sua solicitação.” Pendência real: revisão jurídica do texto da política antes
-de uma campanha ampla — o conteúdo atual foi aplicado em 16/08/2026 com base na Resolução ANPD
-2/2022, sem parecer de advogado.
+de uma campanha ampla — o conteúdo atual foi aplicado em 16/08/2026 (commit `67904dd`) sem parecer de
+advogado.
 
 ## Validação
 

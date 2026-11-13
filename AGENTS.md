@@ -47,7 +47,8 @@ conteúdo, visual ou contrato de API **não** mora aqui: mora na fonte canônica
   com o estilo velho por até um ano. Convenção vigente: `?v=<7 primeiros caracteres do sha256 do
   arquivo>` (ex.: `css/politica.v2.css?v=d9f2841`). Tokens antigos feitos à mão (`?v=seoh1`) devem ser
   migrados para o padrão de hash quando o arquivo mudar de novo. Conferir com:
-  `grep -o 'css/[^"]*' *.html | sort -u`.
+  `grep -oE '(css|js|assets)/[^"]*\?v=[A-Za-z0-9]+' *.html | sort -u` — o comando antigo só olhava
+  `css/`, e foi por isso que o JS ficou um ano sem token sem ninguém notar.
 - **`lastmod` do sitemap = data do último commit de conteúdo daquela página**, não a data do dia.
 - **Não reescrever página publicada sem preview aprovado.** Mudança visual/frase de conversão se
   mostra no preview (Tailscale/desktop) e o Bruno aprova antes do merge.
@@ -65,9 +66,12 @@ conteúdo, visual ou contrato de API **não** mora aqui: mora na fonte canônica
 | Estado datado, com evidência ao vivo | `documentos/contexto-projeto/STATUS.md` |
 | Tom de voz, oferta e regras de conteúdo | `DECISIONS.md` D9 + aprovação do Bruno |
 
-**Aviso de fonte fora de uso:** o `README.md` está **desatualizado** (ver `STATUS.md` §3) — descreve
-só `index.html` e "CSS e JS inline", e diz que não existe política de privacidade. O código e os
-arquivos são a verdade; o README é referência técnica parcial até ser corrigido.
+**Escopo dos documentos — sem aviso de fonte fora de uso.** O `README.md` está alinhado com o
+repositório desde 2026-11-13: lista as seis páginas, os assets externos com token de versão e a
+política de privacidade publicada e linkada no consentimento. Ele segue como referência **técnica**
+(estrutura, API, deploy); o que não mora nele é o estado datado — esse é o `STATUS.md` §1–§3 — nem as
+regras transversais, que são deste arquivo. Onde o README declara pendência (configuração do proxy no
+Dokploy, revisão jurídica da política), a pendência é real e continua aberta.
 
 ## 4. Validação obrigatória antes de qualquer merge
 
