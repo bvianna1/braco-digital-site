@@ -7,31 +7,45 @@
 > **Card `done` no Kanban é histórico do que foi feito, não prova de saúde atual.** Se a data deste
 > arquivo não for a de hoje, reconfira com o §4 antes de afirmar que está tudo bem.
 
-**Data da verificação:** 2026-10-29. **Verificado por:** orquestrador (read-only, sem alterar nada).
+**Data da verificação:** 2026-11-13. **Verificado por:** agente `jony` (produção consultada
+read-only; este arquivo atualizado no lote `site/tokens-versao-hashes`).
 
 ---
 
-## 1. Produção (verificado hoje)
+## 1. Produção (status HTTP e paridade medidas em 2026-11-13)
 
 | Item | Comando | Resultado |
 |---|---|---|
 | Home | `curl -o /dev/null -w '%{http_code}'` | **200** |
 | `osc.html` | idem | **200** |
+| `politica-de-privacidade.html` | idem | **200** |
 | `sitemap.xml` | idem | **200** |
 | `healthz` no domínio público | idem | **404** — esperado: health check é interno (D6) |
-| **Paridade produção × local** | `curl sitemap.xml \| diff - sitemap.xml` | **idêntico** |
-| **Paridade de página** | sha256 do `osc.html` servido × local | `e331e3b5…` = `e331e3b5…` — **byte a byte** |
+| `README.md` no domínio público | idem | **404** — documentação interna não é publicada |
+| **Paridade produção × local (sitemap)** | `curl sitemap.xml \| diff - sitemap.xml` | **idêntico** |
+| **Paridade de página** | sha256 do `osc.html` servido × `git show main:osc.html` | `e331e3b5…` = `e331e3b5…` — **byte a byte** |
 
-Conclusão honesta: **o que está em `main` está no ar** hoje (29/10). Isso não garante que o deploy
+Nota de método: a paridade de página é medida contra `main`, não contra a árvore de trabalho, porque
+a árvore local pode estar à frente de `main` durante um lote. O que interessa aqui é "o que está em
+`main` está no ar".
+
+Conclusão honesta: **o que está em `main` está no ar** em 2026-11-13. Isso não garante que o deploy
 automático continue funcionando amanhã — ver §3.
 
-## 2. Repositório e testes (verificado hoje)
+## 2. Repositório e testes (medido em 2026-11-13)
 
-- Branch `main`, HEAD **`0a3abf0`** (merge do `lastmod` da home no sitemap).
-- `python3 -m unittest discover -s api -p 'test_*.py'` → **12 testes, OK** (0,05 s).
+- Branch `main`, HEAD medido nesta data: **`9545f0c`** (versão do CSS da política + README/AGENTS
+  alinhados). Lote seguinte em andamento nesta data: `site/tokens-versao-hashes`. HEAD é medição
+  datada e cada merge o move — a referência viva é `git log --oneline -1` em `main`.
+- `python3 -m unittest discover -s api -p 'test_*.py'` → **12 testes, OK** (0,037 s).
 - **Não rastreados:** `.worktrees/` e 3 PNGs em `assets/marca/`
   (`ilustracao-braco-interface`, `lockup-braco-digital`, `selo-bd-hud`).
-- As seis páginas referenciam `css/*.v2.css` e `js/app.v2.js`; as seis contêm GA4 `G-P51CNDWHR2`.
+- **Tokens de versão, medidos por script em 2026-11-13:** as seis páginas carregam
+  `js/app.v2.js?v=2724a85` e o logo `assets/marca/logo-light.svg?v=5dd0c38`; a home usa
+  `css/index.v2.css?v=5b64311`; a política usa `css/politica.v2.css?v=d9f2841`; as outras quatro usam
+  `css/paginas.v2.css?v=seoh1` — exceção legada declarada no `AGENTS.md` §2, migra quando o arquivo
+  mudar. Todo token (exceto o `seoh1`) confere com o sha7 do sha256 do arquivo: 16 tokens corretos, 0
+  divergências. As seis páginas contêm GA4 `G-P51CNDWHR2`.
 
 ## 3. O que **não** está verificado / não pode ser afirmado hoje
 
@@ -43,13 +57,19 @@ automático continue funcionando amanhã — ver §3.
   **não instrumentado** ainda. O GA4 presente nas páginas mede pageview, não conversão.
 - **Rate limit em produção:** só há evidência em teste local/CI (12 casos). Teste de carga em
   produção é **proibido** (D3) — a afirmação fica limitada ao teste.
-- ~~`README.md` desatualizado~~ — **corrigido em 2026-11-13**: passou a listar as 6 páginas, os assets
-  externos com token de versão e a existência da política de privacidade publicada e linkada no
-  consentimento. Correção feita com patch local; publicação depende do fluxo normal (D1).
-- **Versionamento de asset: existe, mas era irregular.** Medição de 2026-11-13: home usa
-  `css/index.v2.css?v=f4e66e1`; quatro páginas usam `css/paginas.v2.css?v=seoh1`; a política usava
-  `css/politica.v2.css` **sem token** (corrigido para `?v=d9f2841`). A regra de troca de token agora
-  está escrita no `AGENTS.md` §2 — antes dependia de memória, e o token `seoh1` é artesanal, não hash.
+- ~~`README.md` desatualizado~~ — **corrigido em 2026-11-13** em duas etapas: passou a listar as 6
+  páginas, os assets externos com token de versão e a existência da política publicada e linkada no
+  consentimento; e a frase sobre o token deixou de ser falsa quando os tokens foram normalizados para
+  o sha7 real de cada arquivo (lote `site/tokens-versao-hashes`). Publicação segue o fluxo normal (D1).
+- **Versionamento de asset: existia, mas era irregular — normalizado em 2026-11-13.** Medição
+  anterior: home em `css/index.v2.css?v=f4e66e1`, quatro páginas em `css/paginas.v2.css?v=seoh1`, e a
+  política sem token (corrigida no lote anterior para `?v=d9f2841`). Situação agora: todo `?v=` de
+  CSS, JS e logo é o sha7 do sha256 do arquivo, **exceto** `?v=seoh1` em `paginas.v2.css`, exceção
+  legada que o `AGENTS.md` §2 manda migrar quando o arquivo mudar. Os antigos `f4e66e1` (index.v2.css)
+  e `a886879` (logo) nunca corresponderam ao conteúdo do arquivo — não eram sha7, md5 nem blob sha1.
+- **Revisão jurídica da política de privacidade: pendente.** O texto está no ar desde 16/08/2026
+  (commit `67904dd`) sem parecer de advogado; a política cita a ANPD genericamente (prazo de 15 dias
+  para responder solicitações) e não declara base normativa específica. Ver README §Segurança e dados.
 - **Aviso de medição:** a primeira leitura deste repositório (2026-10-29) afirmou "nenhum asset usa
   `?v=`" — era **falso**, produzido por uma regex que exigia dígitos após `v=`. Os tokens reais são
   hexadecimais (`f4e66e1`) e alfanuméricos (`seoh1`). Corrigido aqui e em `DECISIONS.md` D11.
