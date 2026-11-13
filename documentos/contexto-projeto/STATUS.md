@@ -40,12 +40,23 @@ automático continue funcionando amanhã — ver §3.
 - `python3 -m unittest discover -s api -p 'test_*.py'` → **12 testes, OK** (0,037 s).
 - **Não rastreados:** `.worktrees/` e 3 PNGs em `assets/marca/`
   (`ilustracao-braco-interface`, `lockup-braco-digital`, `selo-bd-hud`).
-- **Tokens de versão, medidos por script em 2026-11-13:** as seis páginas carregam
-  `js/app.v2.js?v=2724a85` e o logo `assets/marca/logo-light.svg?v=5dd0c38`; a home usa
-  `css/index.v2.css?v=5b64311`; a política usa `css/politica.v2.css?v=d9f2841`; as outras quatro usam
-  `css/paginas.v2.css?v=seoh1` — exceção legada declarada no `AGENTS.md` §2, migra quando o arquivo
-  mudar. Todo token (exceto o `seoh1`) confere com o sha7 do sha256 do arquivo: 16 tokens corretos, 0
-  divergências. As seis páginas contêm GA4 `G-P51CNDWHR2`.
+- **Tokens de versão, medidos por script em 2026-11-13:** o logo é servido como
+  `assets/marca/logo-light.svg?v=5dd0c38`; a home usa `css/index.v2.css?v=5b64311`; a política usa
+  `css/politica.v2.css?v=d9f2841`; as outras quatro usam `css/paginas.v2.css?v=seoh1` — exceção
+  legada declarada no `AGENTS.md` §2, migra quando o arquivo mudar. Todo token (exceto o `seoh1`)
+  confere com o sha7 do sha256 do arquivo: 16 tokens corretos, 0 divergências. As seis páginas contêm
+  GA4 `G-P51CNDWHR2`.
+- **Carregamento real do JS nas seis páginas, medido em Chrome sobre HTTP local em 2026-11-13:**
+  `js/app.v2.js?v=2724a85` responde **200** e **executa** em `index`, `osc`, `financeiro`,
+  `administrativo`, `relatorios` e `politica-de-privacidade`: em cada página o `<script>` tem `src`
+  com atributo fechado valendo exatamente `js/app.v2.js?v=2724a85`, existe `a.wa-float` e o número de
+  âncoras é o mesmo de `main` (33/9/6/6/6/4). Na home, `#ano` fica `2026`, `.hamb` alterna
+  `body.menu-open` (true→false) e os `href` de `wa.me` do corpo recebem `?text=` — idênticos aos de
+  `main`. **Correção de método em 2026-11-13:** a redação anterior dizia que "as seis páginas
+  carregam" o JS, mas a medição era `grep` da string e o HTML estava inválido (faltava a aspa de
+  fechamento do `src` — defeito do lote `site/tokens-versao-hashes`, reprovado na auditoria
+  `t_44c2911a`); token presente na string não prova carregamento. O gate estrutural que pega esse
+  modo de falha é `grep -nE '(src|href)="[^"]*$' *.html` — hoje sem saída nas seis páginas.
 
 ## 3. O que **não** está verificado / não pode ser afirmado hoje
 
